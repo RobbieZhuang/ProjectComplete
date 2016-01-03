@@ -2,13 +2,9 @@ import java.awt.BorderLayout;
 import java.awt.Color;
 import java.awt.Font;
 import java.awt.GridLayout;
-import java.awt.event.ActionEvent;
-import java.awt.event.ActionListener;
 import java.util.ArrayList;
 import java.util.List;
-import java.util.Scanner;
 
-import javax.swing.JButton;
 import javax.swing.JFrame;
 import javax.swing.JLabel;
 import javax.swing.JPanel;
@@ -16,9 +12,6 @@ import javax.swing.JTabbedPane;
 import javax.swing.JTextField;
 import javax.swing.UIManager;
 import javax.swing.UIManager.LookAndFeelInfo;
-
-import net.miginfocom.swing.MigLayout;
-import javax.swing.JCheckBox;
 
 public class Program {
 	static JFrame window;
@@ -28,30 +21,10 @@ public class Program {
 	static JPanel tasksPanel;
 	static JTabbedPane tabbedPane;
 	static JPanel character;
-	static JButton newDayB;
-	static JPanel dayPanel;
 	static int tasks = 0;
 	
-	static class Daily{
-		String title;
-		String memo;
-		String [] checklist;
-		int difficulty;
-		boolean [] repeat = new boolean[7];
-	
-		Daily(String t, String m, String [] checklist, int d, boolean [] r){
-			title = t;
-			memo = m;
-			this.checklist = checklist;
-			difficulty = d;
-			repeat = r;
-		}
-		
-	}
-	
-	static ArrayList<Daily> dayList = new ArrayList<Daily>();
-	
 	public static void main(String [] args) throws Exception{
+		
 		window = new JFrame("Project: Complete");
 		window.setSize(1080,720);
 		window.setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
@@ -76,7 +49,7 @@ public class Program {
 		}
 		
 		
-		window.getContentPane().setLayout(new BorderLayout());
+		window.setLayout(new BorderLayout());
 		
 		JPanel panel = new JPanel();
 		panel.setBackground(Color.DARK_GRAY);
@@ -96,123 +69,38 @@ public class Program {
 		createTasksPane();
 		
 		// Adds the second pane called Schedule which contains the list of dailies and list of to-dos
-		createSchedulePane();
+		//createSchedulePane();
 		
 		// Adds the third pane called Stats which contains graphs and charts on the user's dailies and to-dos
-		createStatsPane();
+		//createStatsPane();
 		
-		
-
+		// Sets the main JFrame to visible
 		window.setVisible(true);
 	}
 	
 	// Adds the first pane called Tasks which contains dailies panel and checklist panel
 	public static void createTasksPane(){
-		JPanel tasks = new JPanel();
-		tasks.setLayout(new BorderLayout());
+		JPanel backP = new JPanel(new BorderLayout());
 		
-		dayPanel = new JPanel();
-		tasks.add(dayPanel, BorderLayout.WEST);
-		dayPanel.setLayout(new MigLayout("", "[368px]", "[30px][23px][23px][23px][23px]"));
-		
-		
-		JPanel dayTitleP = new JPanel();
-		dayPanel.add(dayTitleP, "flowx,cell 0 0");
-		dayTitleP.setLayout(new GridLayout(0, 3));
-		dayTitleP.add(new JLabel());
-		
-		JLabel label_1 = new JLabel("Dailies");
-		label_1.setForeground(Color.BLACK);
-		label_1.setFont(new Font("Century", Font.PLAIN, 24));
-		label_1.setBackground(Color.DARK_GRAY);
-		dayTitleP.add(label_1);
-		
-		newDayB = new JButton("New Daily");
-		dayPanel.add(newDayB, "cell 0 0");
-		
-		newDayB.addActionListener(new newnewDayBListener());
+		backP.add(DailyClass.initiateDailyPanel(), BorderLayout.WEST);
 		
 		JPanel cklstPanel = new JPanel();
-		tasks.add(cklstPanel, BorderLayout.EAST);
-
+		backP.add(cklstPanel, BorderLayout.EAST);
+		
 		character = new JPanel();
-		tasks.add(character, BorderLayout.NORTH);
+		backP.add(character, BorderLayout.NORTH);
+				
 		
-		tabbedPane.addTab("Tasks", null, tasks, null);
+		tabbedPane.addTab("Tasks", null, backP, null);
 	}
 	
-	static class newnewDayBListener implements ActionListener{
-		public void actionPerformed(ActionEvent e){
-			createTask();
-			newTask();
-		}
-	}
-	
-	// Ask user information from console add to ArrayList of dailies
-	public static void createTask(){
-		Scanner in = new Scanner(System.in);
-		tasks ++;
-		
-		System.out.println("Title: ");
-		String title = in.nextLine();
-		System.out.println("Description: ");
-		String memo = in.nextLine();
-		System.out.println("Checklist separated by a comma\",\": ");
-		String clString = in.nextLine();
-		String [] checklist = clString.split(",");
-		for (int i = 0; i < checklist.length; i++) {
-			System.out.println(checklist[i]);
-		}
-		System.out.println("Difficulty 1-10: ");
-		int diff = in.nextInt();
-		boolean [] repeat = new boolean[7];
-		System.out.println("String of T/F corresponding to day of the week beginning on Sunday (max length = 7): ");
-		String s = in.next();
-
-		for (int i = 0; i < s.length(); i++){
-			if (s.toUpperCase().equals("T")){
-				repeat[i] = true;
-			}
-		}
-		
-		Daily d = new Daily(title, memo, checklist, diff, repeat);
-
-		System.out.println(d.title);
-		System.out.println(d.checklist.length);
-
-		dayList.add(d);
-	}
-	
-	public static void newTask(){
-		for (int i = 0; i < dayList.size(); i++){
-			JPanel task = new JPanel();
-			task.setLayout(new GridLayout(4 + dayList.get(i).checklist.length, 1));
-			task.add(new JLabel(dayList.get(i).title));
-			task.add(new JLabel((dayList.get(i).memo)));
-			for (int k = 0; k < dayList.get(i).checklist.length; k++) {
-				task.add(new JCheckBox(dayList.get(i).checklist[k]));
-			}
-			task.add(new JLabel("Difficulty: " + dayList.get(i).difficulty));
-			JPanel repeatP = new JPanel(new GridLayout(1, 7));
-			
-			String [] daysOfTheWeek = { "Sunday", "Monday", "Tuesday", "Wednesday", "Thursday", "Friday", "Saturday" };
-			for (int j = 0; j < daysOfTheWeek.length; j++){
-				if (j > dayList.get(i).repeat.length ) repeatP.add(new JLabel(daysOfTheWeek[j] + " No "));
-				else if (dayList.get(i).repeat[j] == true) repeatP.add(new JLabel(daysOfTheWeek[j] + " Yes "));
-				else repeatP.add(new JLabel(daysOfTheWeek[j] + " No "));
-			}
-			task.add(repeatP);
-			dayPanel.add(task,"flowx,cell 0 " + tasks);
-			window.setVisible(true);
-		}
-		
-	}
 	public static void deleteTask(){
 		
 	}
 	
 	// Adds the second pane called Schedule which contains the list of dailies and list of to-dos
 	public static void createSchedulePane(){
+		
 		JPanel schedule = new JPanel();
 		schedule.setLayout(new BorderLayout());
 		
@@ -230,7 +118,7 @@ public class Program {
 	
 	// Adds the third pane called Stats which contains graphs and charts on the user's dailies and to-dos
 	public static void createStatsPane(){
-		JPanel backPanel = new JPanel(new BorderLayout());
+		JPanel backP = new JPanel(new BorderLayout());
 		JPanel stats = new JPanel();
 		stats.setLayout(new GridLayout(2,2));
 		
@@ -244,10 +132,10 @@ public class Program {
 		stats.add(genStats);
 		
 		character = new JPanel();
-		backPanel.add(character, BorderLayout.NORTH);
-		backPanel.add(stats, BorderLayout.SOUTH);
+		backP.add(character, BorderLayout.NORTH);
+		backP.add(stats, BorderLayout.SOUTH);
 		
-		tabbedPane.addTab("Stats", null, backPanel, null);
+		tabbedPane.addTab("Stats", null, backP, null);
 	}
 	
 	/*
