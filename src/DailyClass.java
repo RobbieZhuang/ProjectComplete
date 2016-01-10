@@ -1,28 +1,56 @@
 import java.awt.BorderLayout;
 import java.awt.Color;
+import java.awt.Dimension;
 import java.awt.Font;
 import java.awt.GridLayout;
-import java.awt.TextArea;
 import java.awt.event.ActionEvent;
 import java.awt.event.ActionListener;
 import java.util.ArrayList;
+import java.util.StringTokenizer;
 
 import javax.swing.JButton;
 import javax.swing.JCheckBox;
 import javax.swing.JLabel;
 import javax.swing.JPanel;
+import javax.swing.JScrollPane;
 import javax.swing.JSlider;
+import javax.swing.JTextArea;
 import javax.swing.JTextField;
+import javax.swing.SwingConstants;
 
 import net.miginfocom.swing.MigLayout;
+import javax.swing.border.LineBorder;
+import java.awt.GridBagLayout;
+import java.awt.GridBagConstraints;
+import java.awt.Insets;
+import javax.swing.JEditorPane;
+import javax.swing.JRadioButton;
+import javax.swing.JProgressBar;
 
 public class DailyClass {
-	
-	static ArrayList<Daily> dayList = new ArrayList<Daily>();
+
+	static JScrollPane jSP; // JScrollPane
+	static JPanel dayPanel; // Main Panel
+	static JPanel dayTaskP; // Tasks (updated after every user interaction)
+	// For the creation of a new daily task
+	static JButton newDailyB; // Daily Button
+	static JPanel newDailyP; // New Daily Panel (creates a new one when user clicks the newDailyB button)
+	// Swing tools to get user information
+	static JTextField newTitleT;
+	static JTextArea newDescripA; 
+	static JTextArea cklstA;
+	static JSlider diffS; 
+	static JButton [] repeatB = new JButton [7];
+	//Shared variables for adding new daily
+	static String title, descrip;
+	static String [] checklist, daysOfTheWeek = { "Sun", "Mon", "Tue", "Wed", "Thu", "Fri", "Sat" };
+	static boolean [] repeat = new boolean[7];
+	static int diff;
+	static JButton completeB;
+	// ArrayLists storing the User's dailies and completed dailies --> To be updated into a file
+	static ArrayList<Daily> dayList = new ArrayList<Daily>(); // Stores Dailies that need to be complete 
 	static ArrayList<Daily> completedDayList = new ArrayList<Daily>();
-	static JPanel taskP;
-	static JButton newDayB;
-	static JPanel dayPanel;
+	private static JTextField textField;
 	
 	static class Daily{
 		String title;
@@ -30,162 +58,189 @@ public class DailyClass {
 		String [] checklist;
 		int difficulty;
 		boolean [] repeat = new boolean[7];
-	
-		Daily(String t, String m, String [] checklist, int d, boolean [] r){
+		boolean complete;
+		
+		Daily(String t, String m, String [] checklist, int d, boolean [] r, boolean comp){
 			title = t;
 			memo = m;
 			this.checklist = checklist;
 			difficulty = d;
 			repeat = r;
+			complete = comp;
 		}
 		
 	}
 	
-	public static JPanel initiateDailyPanel(){
-		
+	
+	public static JScrollPane initiateDailyPanel(){
 		dayPanel = new JPanel();
-		dayPanel.setLayout(new MigLayout("", "[368px]", "[30px][23px][23px][23px][23px]"));
+		dayPanel.setBorder(new LineBorder(Color.DARK_GRAY, 2, true));
+		//dayPanel.setBackground(Color.DARK_GRAY);
+		dayPanel.setLayout(new BorderLayout());
 		
-		JPanel dayTitleP = new JPanel();
-		dayPanel.add(dayTitleP, "flowx,cell 0 0");
-		dayTitleP.setLayout(new GridLayout(0, 3));
-		dayTitleP.add(new JLabel());
-		JLabel dayTitleL = new JLabel("Dailies");
-		newDayB = new JButton("New Daily");
-		newDayB.addActionListener(new newNewDayBListener());
-		dayPanel.add(newDayB, "cell 0 0");
+		JPanel titleP = new JPanel();
+		titleP.setLayout(new BorderLayout());
 		
-		dayTitleL.setForeground(Color.BLACK);
-		dayTitleL.setFont(new Font("Century", Font.PLAIN, 24));
-		dayTitleL.setBackground(Color.DARK_GRAY);
-		dayTitleP.add(dayTitleL);
+		JLabel titleL = new JLabel("Dailies");
+		//titleL.setForeground(Color.BLACK);
+		titleL.setFont(new Font("Century", Font.PLAIN, 20));
+		//titleL.setBackground(Color.DARK_GRAY);
+		titleL.setHorizontalAlignment(SwingConstants.CENTER);
 		
-		return dayPanel;
+		newDailyB = new JButton("New Daily");
+		newDailyB.addActionListener(new newDailyBLis());
 		
+		titleP.add(titleL, BorderLayout.CENTER);
+		titleP.add(newDailyB,  BorderLayout.SOUTH);
+		dayPanel.add(titleP, BorderLayout.NORTH);
+		
+		updateDaily();
+		
+		jSP = new JScrollPane(dayPanel);
+		jSP.setPreferredSize(new Dimension(350, 450));
+		
+		return jSP;
 	}
 	
-	static class newNewDayBListener implements ActionListener{
+	static class newDailyBLis implements ActionListener{
 		public void actionPerformed(ActionEvent e){
+			newDailyB.setEnabled(false);
 			createNewDaily();
-			//addNewDaily();
 		}
 	}
 	
+	static class newCompBLis implements ActionListener{
+		public void actionPerformed(ActionEvent e){
+			addNewDaily();
+			updateDaily();
+			newDailyB.setEnabled(true);
+		}
+	}
+	
+	static class checkBLis implements ActionListener{
+		public void actionPerformed(ActionEvent e){
+			if (e.getSource() instanceof JButton){
+				if (((JButton) e.getSource()).getText().equals("Done")){
+					((JButton) e.getSource()).setText("Finish");
+				}
+				else if (((JButton) e.getSource()).getText().equals("Finish")){
+					((JButton) e.getSource()).setText("Done");
+				}
+			}
+		}
+	}
+	/**
+	 * @wbp.parser.entryPoint
+	 */
 	// Ask user information from console add to ArrayList of dailies
 	public static void createNewDaily(){
-		String title, descrip;
-		String [] checklist, daysOfTheWeek = { "Sunday", "Monday", "Tuesday", "Wednesday", "Thursday", "Friday", "Saturday" };
-		boolean [] repeat = new boolean[7];
-		int diff;
+		dayPanel.remove(dayTaskP);
+		// TextField implementation for title
+		JPanel newTitleP = new JPanel(new BorderLayout());
+		newTitleT = new JTextField("Title", 40);
+		newTitleP.add(newTitleT);
 		
-		JTextField newTitleT = new JTextField("Title");
-		TextArea newDescripA = new TextArea("Description");
+		// New description textarea
+		newDescripA = new JTextArea("Description", 3, 40);
+		newDescripA.setLineWrap(true);
 		
-		JLabel checklistL = new JLabel("Checklist");
-		ArrayList <String> clElements = new ArrayList<String>();
-		/*
-		String input = null;
-		do{
-			JTextField elementF = new JTextField(20);
-			input = elementF.getText();
-			if (!input.isEmpty()){
-				clElements.add(input);
-			}
-		}while(!input.isEmpty());
+		// JPanel for checklist
+		JPanel cklstTitleP = new JPanel(new BorderLayout());
+		JPanel cklstP = new JPanel(new BorderLayout());
+		// checklist label
+		JLabel cklstL = new JLabel("Checklist");
+		cklstTitleP.add(cklstL);
+		//cklstL.setForeground(Color.BLACK);
+		cklstTitleP.add(cklstL, BorderLayout.CENTER);
+		cklstA = new JTextArea("Enter Checklist here, one item per line", 3, 35);
+		cklstA.setLineWrap(true);
+		cklstP.add(cklstA, BorderLayout.CENTER);
+		JScrollPane cklstSP = new JScrollPane(cklstP);
+		cklstSP.setPreferredSize(new Dimension(325, 75));
 		
-		checklist = (String[]) clElements.toArray();
-		*/
-		checklist = new String[0];
+		// Difficulty Slider Implementation
+		JPanel diffP = new JPanel(new BorderLayout());
 		JLabel diffL = new JLabel("Difficulty");
-		JSlider diffS = new JSlider(0, 10);
+		//diffL.setForeground(Color.BLACK);
+		diffS = new JSlider(1, 10);
+		diffS.setSize(new Dimension(3, 40));
+		diffP.add(diffL, BorderLayout.NORTH);
+		diffP.add(diffS, BorderLayout.CENTER);
 		
+		// Repeat buttons
+		JPanel repeatP = new JPanel(new BorderLayout());
 		JLabel repeatL = new JLabel("Select days to repeat on.");
+		//repeatL.setForeground(Color.WHITE);
+		JPanel daysOfWeekP1 = new JPanel(new GridLayout(1, 3));
+		JPanel daysOfWeekP2 = new JPanel(new GridLayout(1, 4));
 		
-		JPanel daysOfWeekP = new JPanel(new GridLayout(1, 7));
-		
-		for (int i = 0; i < daysOfTheWeek.length; i++) {
-			daysOfWeekP.add(new JButton(daysOfTheWeek[i]));
+		for (int i = 0; i < 3; i++) {
+			daysOfWeekP1.add(new JButton(daysOfTheWeek[i]));
+		}
+		for (int i = 3; i < daysOfTheWeek.length; i++){
+			daysOfWeekP2.add(new JButton(daysOfTheWeek[i]));
 		}
 		
-		title = newTitleT.getText();
-		descrip = newDescripA.getText();
-		diff = diffS.getValue();
+		repeatP.add(repeatL, BorderLayout.NORTH);
+		JPanel repeatDaysP = new JPanel(new BorderLayout());
+		repeatDaysP.add(daysOfWeekP1, BorderLayout.NORTH);
+		repeatDaysP.add(daysOfWeekP2, BorderLayout.SOUTH);
+		repeatP.add(repeatDaysP, BorderLayout.CENTER);
 		
-		Daily d = new Daily(title, descrip, checklist, diff, repeat);
-		System.out.println(d.title);
-		System.out.println(d.checklist.length);
+		completeB = new JButton("Done");
+		completeB.addActionListener(new newCompBLis());
 		
-		dayList.add(d);
-		
-		
-		JPanel newDailyP = new JPanel(new GridLayout(7, 1));
-		newDailyP.add(newTitleT);
-		//newDailyP.add(newDescripA);
-		newDailyP.add(checklistL);
-		//newDailyP.add(comp)
-		newDailyP.add(diffL);
-		newDailyP.add(diffS);
-		newDailyP.add(repeatL);
-		newDailyP.add(daysOfWeekP);
-		
-		dayPanel.add(newDailyP, "cell 0 1, shrink");
+		// Initiation of newDailyP + foreground and background colours
+		newDailyP = new JPanel(new MigLayout("flowy"));
+		//newDailyP.setBackground(Color.DARK_GRAY);
+		//newDailyP.setForeground(Color.WHITE);
+		newDailyP.add(newTitleP);
+		newDailyP.add(newDescripA);
+		newDailyP.add(cklstTitleP);
+		newDailyP.add(cklstSP);
+		newDailyP.add(diffP);
+		newDailyP.add(repeatP);
+		newDailyP.add(completeB);
+		dayPanel.add(newDailyP, BorderLayout.CENTER);
 		Program.window.setVisible(true);
-		
-		
-		/*
-		// Using Console to get information
-		Scanner in = new Scanner(System.in);
-		tasks ++;
-		
-		System.out.println("Title: ");
-		String title = in.nextLine();
-		System.out.println("Description: ");
-		String memo = in.nextLine();
-		System.out.println("Checklist separated by a comma\",\": ");
-		String clString = in.nextLine();
-		String [] checklist = clString.split(",");
-		for (int i = 0; i < checklist.length; i++) {
-			System.out.println(checklist[i]);
-		}
-		System.out.println("Difficulty 1-10: ");
-		int diff = in.nextInt();
-		boolean [] repeat = new boolean[7];
-		System.out.println("String of T/F corresponding to day of the week beginning on Sunday (max length = 7): ");
-		String s = in.next();
-
-		for (int i = 0; i < s.length(); i++){
-			if (s.toUpperCase().equals("T")){
-				repeat[i] = true;
-			}
-		}
-		*/
 	}
 	
 	public static void addNewDaily(){
-		taskP = new JPanel();
-		dayPanel.removeAll();
-		for (int i = 0; i < dayList.size(); i++){
-			taskP.setLayout(new GridLayout(4 + dayList.get(i).checklist.length, 1));
-			taskP.add(new JLabel(dayList.get(i).title));
-			taskP.add(new JLabel((dayList.get(i).memo)));
-			for (int k = 0; k < dayList.get(i).checklist.length; k++) {
-				taskP.add(new JCheckBox(dayList.get(i).checklist[k]));
-			}
-			taskP.add(new JLabel("Difficulty: " + dayList.get(i).difficulty));
-			JPanel repeatP = new JPanel(new GridLayout(1, 7));
-			
-			String [] daysOfTheWeek = { "Sun", "Mon", "Tue", "Wed", "Thu", "Fri", "Sat" };
-			for (int j = 0; j < daysOfTheWeek.length; j++){
-				if (j > dayList.get(i).repeat.length ) repeatP.add(new JLabel(daysOfTheWeek[j] + " No "));
-				else if (dayList.get(i).repeat[j] == true) repeatP.add(new JLabel(daysOfTheWeek[j] + " Yes "));
-				else repeatP.add(new JLabel(daysOfTheWeek[j] + " No "));
-			}
-			taskP.add(repeatP);
-			dayPanel.add(taskP, "cell 0 " + i+1 +", shrink");
-			Program.window.setVisible(true);
-		}
-			
+		dayPanel.remove(newDailyP);
+		jSP.repaint();
+		title = newTitleT.getText();
+		descrip = newDescripA.getText();
+		String [] cklst = new String[cklstA.getLineCount()];
+		StringTokenizer sk = new StringTokenizer(cklstA.getText(), "\n");
 		
+		diff = diffS.getValue();
+		System.out.println(diff);
+		Daily d = new Daily(title, descrip, cklst, diff, repeat, false);
+		dayList.add(d);
+	}
+	public static void updateDaily(){
+		dayTaskP = new JPanel();
+		GridBagLayout gbl_dayTaskP = new GridBagLayout();
+		gbl_dayTaskP.columnWidths = new int[]{0, 0};
+		gbl_dayTaskP.rowHeights = new int[]{0, 0};
+		gbl_dayTaskP.columnWeights = new double[]{1.0, Double.MIN_VALUE};
+		gbl_dayTaskP.rowWeights = new double[]{1.0, Double.MIN_VALUE};
+		dayTaskP.setLayout(gbl_dayTaskP);
+		
+		for (int i = 0; i < dayList.size(); i++){
+			JPanel taskP = new JPanel(new BorderLayout());
+			JButton dayTaskB = new JButton("Finish");
+			dayTaskB.addActionListener(new checkBLis());
+			taskP.add(dayTaskB, BorderLayout.WEST);
+			taskP.add(new JLabel(dayList.get(i).title), BorderLayout.CENTER);
+			GridBagConstraints gbc = new GridBagConstraints();
+			gbc.anchor = GridBagConstraints.NORTH;
+			gbc.gridx = 0;
+			gbc.gridy = i;
+			dayTaskP.add(taskP, gbc);
+		}
+		dayPanel.add(dayTaskP);
+		dayPanel.repaint();
 	}
 	
 }

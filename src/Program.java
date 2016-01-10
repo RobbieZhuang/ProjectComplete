@@ -2,6 +2,7 @@ import java.awt.BorderLayout;
 import java.awt.Color;
 import java.awt.Font;
 import java.awt.GridLayout;
+import java.io.IOException;
 import java.util.ArrayList;
 import java.util.List;
 
@@ -20,7 +21,6 @@ public class Program {
 	static List points = new ArrayList();
 	static JPanel tasksPanel;
 	static JTabbedPane tabbedPane;
-	static JPanel character;
 	static int tasks = 0;
 	
 	public static void main(String [] args) throws Exception{
@@ -49,17 +49,17 @@ public class Program {
 		}
 		
 		
-		window.setLayout(new BorderLayout());
+		window.getContentPane().setLayout(new BorderLayout());
 		
 		JPanel panel = new JPanel();
 		panel.setBackground(Color.DARK_GRAY);
 		window.getContentPane().add(panel, BorderLayout.NORTH);
 		
-		JLabel lblProjectComplete = new JLabel("Project: Complete");
-		lblProjectComplete.setForeground(Color.WHITE);
-		lblProjectComplete.setBackground(Color.GRAY);
-		lblProjectComplete.setFont(new Font("Century", Font.PLAIN, 24));
-		panel.add(lblProjectComplete);
+		JLabel ProjectCompleteL = new JLabel("Project: Complete");
+		ProjectCompleteL.setForeground(Color.WHITE);
+		ProjectCompleteL.setBackground(Color.GRAY);
+		ProjectCompleteL.setFont(new Font("Century", Font.PLAIN, 24));
+		panel.add(ProjectCompleteL);
 				
 		// Creates a tabbedPane
 		tabbedPane = new JTabbedPane(JTabbedPane.TOP);
@@ -69,27 +69,24 @@ public class Program {
 		createTasksPane();
 		
 		// Adds the second pane called Schedule which contains the list of dailies and list of to-dos
-		//createSchedulePane();
+		createSchedulePane();
 		
 		// Adds the third pane called Stats which contains graphs and charts on the user's dailies and to-dos
-		//createStatsPane();
+		createStatsPane();
 		
 		// Sets the main JFrame to visible
 		window.setVisible(true);
 	}
 	
 	// Adds the first pane called Tasks which contains dailies panel and checklist panel
-	public static void createTasksPane(){
+	public static void createTasksPane() throws IOException{
 		JPanel backP = new JPanel(new BorderLayout());
 		
 		backP.add(DailyClass.initiateDailyPanel(), BorderLayout.WEST);
 		
-		JPanel cklstPanel = new JPanel();
-		backP.add(cklstPanel, BorderLayout.EAST);
+		backP.add(TasksSPClass.initiateScatterPlot(), BorderLayout.EAST);
 		
-		character = new JPanel();
-		backP.add(character, BorderLayout.NORTH);
-				
+		backP.add(CharacterClass.initiatePanel(), BorderLayout.NORTH);
 		
 		tabbedPane.addTab("Tasks", null, backP, null);
 	}
@@ -99,7 +96,7 @@ public class Program {
 	}
 	
 	// Adds the second pane called Schedule which contains the list of dailies and list of to-dos
-	public static void createSchedulePane(){
+	public static void createSchedulePane() throws IOException{
 		
 		JPanel schedule = new JPanel();
 		schedule.setLayout(new BorderLayout());
@@ -107,17 +104,16 @@ public class Program {
 		JPanel dayListPanel = new JPanel();
 		schedule.add(dayListPanel, BorderLayout.WEST);
 		
-		JPanel cklstListPanel = new JPanel();
-		schedule.add(cklstListPanel, BorderLayout.WEST);
 		
-		character = new JPanel();
-		schedule.add(character, BorderLayout.NORTH);
+		//schedule.add(cklstListPanel, BorderLayout.WEST);
+		
+		schedule.add(CharacterClass.initiatePanel(), BorderLayout.NORTH);
 
 		tabbedPane.addTab("Schedule & Optimization", null, schedule, null);
 	}
 	
 	// Adds the third pane called Stats which contains graphs and charts on the user's dailies and to-dos
-	public static void createStatsPane(){
+	public static void createStatsPane() throws IOException{
 		JPanel backP = new JPanel(new BorderLayout());
 		JPanel stats = new JPanel();
 		stats.setLayout(new GridLayout(2,2));
@@ -131,39 +127,10 @@ public class Program {
 		JPanel genStats = new JPanel();
 		stats.add(genStats);
 		
-		character = new JPanel();
-		backP.add(character, BorderLayout.NORTH);
+		backP.add(CharacterClass.initiatePanel(), BorderLayout.NORTH);
 		backP.add(stats, BorderLayout.SOUTH);
 		
 		tabbedPane.addTab("Stats", null, backP, null);
 	}
-	
-	/*
-	public static void buildScatterPlot(){
-		points.add(new Point2D.Float(100, 400));
-        points.add(new Point2D.Float(200, 100));
-        points.add(new Point2D.Float(300, 120));
-        //points.add(new Point2D.Float(3, 10));
-        // points.add(new Point2D.Float(4, 12));
-        JPanel panel = new JPanel();
-    	panel.setSize(500, 500);
-    	panel{
-            @Override
-            public void paintComponent(Graphics g) {
-                //g.translate(0, 0);
-                super.paintComponent(g);
-                Graphics2D g2d = (Graphics2D) g.create();
-                g.setColor(Color.RED);
-                g.drawRect(0, 0, getWidth() - 1, getHeight() - 1);
-                for (Iterator i = points.iterator(); i.hasNext();) {
-                    Point2D.Float pt = (Point2D.Float) i.next();
-                    Ellipse2D dot = new Ellipse2D.Float(pt.x - 1, pt.y - 1, 2, 2);
-                    g2d.fill(dot);
-                }
-                g2d.dispose();
-            }
-        };
-        tasksPanel.add(panel);
-	}
-	*/
+
 }
