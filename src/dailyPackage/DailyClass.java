@@ -102,12 +102,6 @@ public class DailyClass {
 		GridBagLayout gbl = new GridBagLayout();
 		dayTaskP.setLayout(gbl);
 		
-		/*
-		for (int i = 0; i < Daily.dayList.length; i++) {
-			System.out.println(Daily.dayList[i].getTitle());
-		}
-		*/
-		
 		for (int i = 0; i < Daily.dayList.length; i++){
 			if (Daily.dayList[i] != null){
 				JPanel taskP = new JPanel(new BorderLayout());
@@ -139,7 +133,6 @@ public class DailyClass {
 			}
 		}
 		dayPanel.add(dayTaskP);
-		//dayPanel.repaint();
 		Program.window.repaint();
 	}
 

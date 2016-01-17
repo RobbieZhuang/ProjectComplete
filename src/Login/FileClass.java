@@ -1,10 +1,11 @@
-package mainPackage;
+package Login;
 import java.io.File;
 import java.io.FileNotFoundException;
 import java.util.Scanner;
 import java.util.StringTokenizer;
 
 import dailyPackage.Daily;
+import mainPackage.Program;
 
 public class FileClass {
 

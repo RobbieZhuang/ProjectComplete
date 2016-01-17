@@ -1,4 +1,4 @@
-package mainPackage;
+package Login;
 import java.awt.image.BufferedImage;
 import java.io.File;
 import java.io.IOException;

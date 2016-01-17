@@ -45,7 +45,7 @@ public class TasksSPClass{
 	static JTextField newTitleT;
 	static JTextArea newDescripA; 
 	static JSlider impS;
-	static JSpinner spinner;
+	static JSpinner dueS;
 	
 	static ArrayList <Point> checkTasks = new ArrayList <Point>();
 	static ArrayList <Point> finiCheckTasks = new ArrayList <Point>();
@@ -60,28 +60,39 @@ public class TasksSPClass{
 			addToDoInfo();
 		}
 	}
+	
 	public static JPanel initiateScatterPlot() throws IOException{
 		cklstP = new JPanel(new BorderLayout());
 		cklstP.setBorder(new LineBorder(Color.DARK_GRAY, 2, true));
-		populate();
-		add();
 		
 		JPanel topP = new JPanel(new BorderLayout());
 		JLabel titleL = new JLabel("Advanced Checklist");
 		titleL.setHorizontalAlignment(SwingConstants.CENTER);
 		titleL.setFont(new Font("Century", Font.PLAIN, 20));
+		
 		newToDoB = new JButton("New ToDo");
 		newToDoB.addActionListener(new newToDoLis());
+		
 		topP.add(titleL, BorderLayout.CENTER);
 		topP.add(newToDoB, BorderLayout.EAST);
 		cklstP.add(topP, BorderLayout.NORTH);
+		
+		addScatterPlot();
+		cklstP.setPreferredSize(new Dimension(700, 450));
+		
+		return cklstP;
+	}
+
+	public static void addScatterPlot() throws IOException{
+		populate();
+		add();
 		
 		NumberAxis domainAxis = new NumberAxis("Due Date");
         //domainAxis.setAutoRangeIncludesZero(false);
         NumberAxis rangeAxis = new NumberAxis("Importance");
         //rangeAxis.setAutoRangeIncludesZero(false);
         
-        /*
+        
         int [] sizes = new int[100];
         for (int i = 0; i < sizes.length; i++){
         	sizes[i] = 10;
@@ -91,9 +102,6 @@ public class TasksSPClass{
         for (int i = 0; i < colors.length; i++){
         	colors[i] = new Color ((float)Math.random()/5, (float)Math.random()/2, (float)Math.random());
         }
-        */
-        int [] sizes = new int[100];
-        Paint [] colors = new Paint[100];
         int [] shapes = new int[100];
         for (int i = 0; i < 100; i++){
         	shapes[i] = 10;
@@ -102,16 +110,10 @@ public class TasksSPClass{
 		ExtendedFastScatterPlot plot = new ExtendedFastScatterPlot(tasks, domainAxis, rangeAxis, sizes, colors, shapes);
 		plot.setBackgroundImage(ImageIO.read(new File("res/MR.jpg")));
 		JFreeChart taskPlot = new JFreeChart(plot);
-		//taskPlot.getRenderingHints().put(RenderingHints.KEY_ANTIALIASING, RenderingHints.VALUE_ANTIALIAS_ON);
         
 		cp = new ChartPanel(taskPlot, true);
 		cklstP.add(cp, BorderLayout.CENTER);
-		
-		cklstP.setPreferredSize(new Dimension(700, 450));
-		
-		return cklstP;
 	}
-	
 	/**
 	 * @throws IOException 
 	 * @wbp.parser.entryPoint
@@ -119,7 +121,7 @@ public class TasksSPClass{
 	public static void addNewToDoPanel(){
 		cklstP.remove(cp);
 		
-		JPanel newToDoP = new JPanel();
+		newToDoP = new JPanel();
 		// TextField implementation for title
 		JPanel newTitleP = new JPanel(new BorderLayout());
 		JLabel newTitleL = new JLabel("Title");
@@ -155,9 +157,9 @@ public class TasksSPClass{
 		/// Due Date TextField
 		JPanel dueP = new JPanel(new BorderLayout());
 		JLabel dueL = new JLabel("Select the amount of days until due.");
-		spinner = new JSpinner();
+		dueS = new JSpinner();
 		dueP.add(dueL, BorderLayout.NORTH);
-		dueP.add(spinner, BorderLayout.CENTER);
+		dueP.add(dueS, BorderLayout.CENTER);
 		
 		doneToDoB = new JButton("Done");
 		doneToDoB.addActionListener(new addToDoLis());
@@ -174,26 +176,32 @@ public class TasksSPClass{
 		cklstP.add(newToDoP, BorderLayout.CENTER);
 		Program.window.repaint();
 	}
+	
 	public static void addToDoInfo(){
-		if (newToDoP != null && newToDoP.getParent() == cklstP){
-			cklstP.remove(newToDoP);
-		}
+		cklstP.remove(newToDoP);
 		String title = newTitleT.getText();
 		String descrip = newDescripA.getText();
 		int i = impS.getValue();
-		int dD = (int) spinner.getValue();
+		int dD = (int) dueS.getValue();
 		
 		ToDo.toDos[ToDo.lowestIndex()] = new ToDo(title, descrip, i, dD);
-		cklstP.add(cp);
+		
+		try {
+			addScatterPlot();
+		} catch (IOException e) {
+		}
+		
+		Program.window.repaint();
 	}
 	
 	public static void populate(){
-		for (int i = 0; i < 10; i++){
-			float x = (float)Math.random()*10;
-			float y = (float)Math.random()*10;
-			Point n = new Point(x, y, "X");
-			checkTasks.add(n);
-			//System.out.println(checkTasks.get(i).x + " "  + checkTasks.get(i).y);
+		for (int i = 0; i < ToDo.toDos.length; i++){
+			if (ToDo.toDos[i] != null){
+				float x = (float)ToDo.toDos[i].getDueDate();
+				float y = (float)ToDo.toDos[i].getImportance();
+				Point n = new Point(x, y, ToDo.toDos[i].getTitle());
+				checkTasks.add(n);
+			}
 		}
 	}
 	public static void add(){

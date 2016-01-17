@@ -67,7 +67,7 @@ public class ToDo {
 	// Find out the lowest index without an object in array
 	public static int lowestIndex(){
 		int lowest = toDos.length;
-		while(toDos[lowest-1] == null && lowest != 0){
+		while(lowest != 1 && toDos[lowest-1] == null){
 			lowest--;
 		}
 		return lowest;

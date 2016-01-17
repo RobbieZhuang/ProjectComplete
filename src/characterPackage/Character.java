@@ -1,7 +1,7 @@
 package characterPackage;
 import java.awt.image.BufferedImage;
 
-import mainPackage.LoginClass;
+import Login.LoginClass;
 import mainPackage.PopupMessage;
 
 public class Character {
