@@ -8,8 +8,8 @@ import dailyPackage.Daily;
 
 public class FileClass {
 
-	public static void importData() throws FileNotFoundException{
-		Scanner fInput = new Scanner(new File(Program.username + ".txt"));
+	public static void importDailies() throws FileNotFoundException{
+		Scanner fInput = new Scanner(new File(Program.username + "dailies.txt"));
 		//System.out.println("FROM FILE CLASS:");
 		int index = 0;
 		while (fInput.hasNext()){
@@ -53,7 +53,10 @@ public class FileClass {
 			if (Daily.dayList[i] != null) System.out.println(Daily.dayList[i].getTitle());
 		}
 	}
-
+	public static void importToDos() throws FileNotFoundException{
+		Scanner fInput = new Scanner(new File(Program.username + "cklst.txt"));
+		
+	}
 	public static void exportData(){
 	}
 }

@@ -23,6 +23,10 @@ import taskScatterPlotPackage.TasksSPClass;
 import java.awt.Component;
 import javax.swing.Box;
 
+/**
+ * @author Robbie
+ *
+ */
 public class Program {
 	public static JFrame window;
 	static JPanel titlePanel;
@@ -38,7 +42,7 @@ public class Program {
 	public static void main(String [] args) throws Exception{
 		
 		LoginClass.testLogin();
-		FileClass.importData();
+		FileClass.importDailies();
 		
 		window = new JFrame("Project: Complete");
 		window.setSize(1080,800);
