@@ -139,7 +139,8 @@ public class DailyClass {
 			}
 		}
 		dayPanel.add(dayTaskP);
-		dayPanel.repaint();
+		//dayPanel.repaint();
+		Program.window.repaint();
 	}
 
 	/**
