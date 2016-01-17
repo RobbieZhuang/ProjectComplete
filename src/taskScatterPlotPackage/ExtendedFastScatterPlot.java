@@ -1,4 +1,4 @@
-package actionListenersPackage;
+package taskScatterPlotPackage;
 /*
  * Source code from Shadow
  * http://stackoverflow.com/questions/27017772/how-to-change-point-size-or-shape-in-fastscatterplot-jfreechart
