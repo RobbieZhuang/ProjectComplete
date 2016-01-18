@@ -43,13 +43,12 @@ public class Program {
 	
 	public static void main(String [] args) throws Exception{
 		
-		LoginClass.testLogin();
 		FileClass.importDailies();
 		
 		window = new JFrame("Project: Complete");
 		window.setSize(1080,800);
 		window.setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
-		window.setResizable(true);
+		window.setResizable(false);
 		
 		try {
 			

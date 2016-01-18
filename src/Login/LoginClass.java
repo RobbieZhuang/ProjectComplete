@@ -6,9 +6,8 @@ import java.io.IOException;
 import javax.imageio.ImageIO;
 
 public class LoginClass {
-	public static void testLogin(){
-		
-	}
+	
+	
 	public static BufferedImage pic(){
 		BufferedImage avatar = null;
 		try{
