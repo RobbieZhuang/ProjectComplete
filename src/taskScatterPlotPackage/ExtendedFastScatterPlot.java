@@ -30,23 +30,22 @@ public class ExtendedFastScatterPlot extends FastScatterPlot {
 
    @Override
    public void render(Graphics2D g2, Rectangle2D dataArea, PlotRenderingInfo info, CrosshairState crosshairState) {
-       if (this.getData() != null) {
-           for (int i = 0; i < data[0].length; i++) {
-               float x = data[0][i];
-               float y = data[1][i];
-               int size = this.sizes[i];
-               
-               int transX = (int) this.getDomainAxis().valueToJava2D(x, dataArea, RectangleEdge.BOTTOM);
-               int transY = (int) this.getRangeAxis().valueToJava2D(y, dataArea, RectangleEdge.LEFT);
-               g2.setPaint(this.colors[i]);
-               if( 1 == this.shapes[i])
-               {
-                   g2.fillRect(transX, transY, size, size);
-               }
-               else
-               {
-                   g2.fillOval(transX, transY, size, size);
-               }
+       
+       for (int i = 0; i < data.length; i++) {
+           float x = data[i][0];
+           float y = data[i][1];
+           int size = this.sizes[i];
+           
+           int transX = (int) this.getDomainAxis().valueToJava2D(x, dataArea, RectangleEdge.BOTTOM);
+           int transY = (int) this.getRangeAxis().valueToJava2D(y, dataArea, RectangleEdge.LEFT);
+           g2.setPaint(colors[i]);
+           if( 1 == this.shapes[i])
+           {
+               g2.fillRect(transX, transY, size, size);
+           }
+           else
+           {
+               g2.fillOval(transX, transY, size, size);
            }
        }
    }
