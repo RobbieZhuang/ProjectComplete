@@ -1,6 +1,7 @@
-/actionListenersPackage/
+/._.DS_Store
+/Login/
 /characterPackage/
 /dailyPackage/
 /mainPackage/
-/taskScatterPlotPackage/
-/Login/
+/statusPackage/
+/toDoPackage/
