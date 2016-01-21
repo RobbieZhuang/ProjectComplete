@@ -3,6 +3,7 @@ package statusPackage;
 import java.awt.BorderLayout;
 import java.awt.Color;
 import java.awt.Dimension;
+import java.awt.FlowLayout;
 import java.awt.Font;
 import java.awt.GridBagConstraints;
 import java.awt.GridBagLayout;
@@ -10,6 +11,7 @@ import java.io.IOException;
 
 import javax.swing.JLabel;
 import javax.swing.JPanel;
+import javax.swing.JScrollPane;
 import javax.swing.border.LineBorder;
 
 import dailyPackage.Daily;
@@ -18,27 +20,31 @@ import toDoPackage.ToDo;
 import javax.swing.SwingConstants;
 
 public class Status {
-	static JPanel statsPanel;
-	static JPanel dailyStatsP;
-
+	public static JPanel statsPanel;
+	public static JPanel dailyStatsP;
+	public static JPanel p1;
 	/**
 	 * @wbp.parser.entryPoint
 	 */
 	public static JPanel initiateStatsPanel() {
 		statsPanel = new JPanel(new BorderLayout());
-		statsPanel.setPreferredSize(new Dimension(1080, 600));
+		
 		updateDailyStatsPanel();
 		updateToDoStatsPanel();
+
+		statsPanel.setPreferredSize(new Dimension(1065, 600));
 		return statsPanel;
+		
 	}
 
 	public static void updateDailyStatsPanel() { 	// Error with updating the panel
 		if (dailyStatsP != null && dailyStatsP.getParent() == statsPanel) {
 			statsPanel.remove(dailyStatsP);
 		}
-		JPanel p1 = new JPanel(new BorderLayout());
+		System.out.println("asdfhagskdjfhagsdkjafhsgdfjhasdgfjkasdghfasd");
+		p1 = new JPanel(new BorderLayout());
 		p1.setBorder(new LineBorder(Color.DARK_GRAY, 2, true));
-		JLabel titleL = new JLabel("List of things to do today.");
+		JLabel titleL = new JLabel("Recommended Order Of Dailies");
 		titleL.setHorizontalAlignment(SwingConstants.CENTER);
 		titleL.setFont(new Font("Century", Font.PLAIN, 24));
 		p1.add(titleL, BorderLayout.NORTH);
@@ -47,11 +53,13 @@ public class Status {
 		String[] optDailies = optimizedDailies();
 		System.out.println(optDailies.length);
 		for (int i = 0; i < optDailies.length; i++) {
+			System.out.println("Here" + optDailies[i]);
 			GridBagConstraints gbc = new GridBagConstraints();
 			gbc.anchor = GridBagConstraints.NORTHWEST;
 			gbc.gridx = 1;
 			gbc.weighty = 1;
 			JLabel jl = new JLabel((i + 1) + ") " + optDailies[i]);
+			jl.setPreferredSize(new Dimension(450, 30));
 			jl.setFont(new Font("Century", Font.PLAIN, 18));
 			jl.setOpaque(true);
 			jl.setBorder(new LineBorder(new Color((float) Math.random(), (float) Math.random(),
@@ -60,32 +68,35 @@ public class Status {
 			dailyStatsP.add(jl, gbc);
 		}
 		p1.add(dailyStatsP, BorderLayout.CENTER);
-
 		statsPanel.add(p1, BorderLayout.WEST);
-		statsPanel.repaint();
+		statsPanel.revalidate();
 		Program.window.repaint();
 	}
 
 	public static void updateToDoStatsPanel() {
 		JPanel toDoStatsP = new JPanel(new GridBagLayout());
 		JPanel p2 = new JPanel(new BorderLayout());
-		JLabel titleLL = new JLabel("Recommended order of tasks:");
+		p2.setBorder(new LineBorder(Color.DARK_GRAY, 2, true));
+		JLabel titleLL = new JLabel("Recommended Order Of To Dos");
+		titleLL.setHorizontalAlignment(SwingConstants.CENTER);
 		titleLL.setFont(new Font("Century", Font.PLAIN, 24));
 		p2.add(titleLL, BorderLayout.NORTH);
 
+		int index = 1;
 		for (int i = 0; i < ToDo.toDos.length; i++) {
-			if (ToDo.toDos[i] != null) {
+			if (ToDo.toDos[i] != null && !ToDo.toDos[i].getDone()) {
 				GridBagConstraints gbc1 = new GridBagConstraints();
 				gbc1.anchor = GridBagConstraints.NORTHWEST;
 				gbc1.gridx = 1;
 				gbc1.weighty = 1;
-				JLabel jl = new JLabel((i + 1) + ") " + ToDo.toDos[i].getTitle());
+				JLabel jl = new JLabel(index + ") " + ToDo.toDos[i].getTitle());
+				jl.setPreferredSize(new Dimension(450, 30));
 				jl.setFont(new Font("Century", Font.PLAIN, 18));
 				jl.setOpaque(true);
-				jl.setBorder(new LineBorder(new Color((float) Math.random(), (float) Math.random(),
-						0 /* (float)Math.random())); */), 3));
+				jl.setBorder(new LineBorder(new Color((float) Math.random(), (float) Math.random(), 0 /* (float)Math.random())); */), 3));
 
 				toDoStatsP.add(jl, gbc1);
+				index++;
 			}
 		}
 		p2.add(toDoStatsP, BorderLayout.CENTER);

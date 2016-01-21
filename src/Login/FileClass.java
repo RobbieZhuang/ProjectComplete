@@ -32,16 +32,16 @@ public class FileClass { // Need to still be able to check against a list of
 		Scanner fInput = new Scanner(new File("saves/" + user.toUpperCase() + "/" + user.toUpperCase() + "data.txt"));
 		while (fInput.hasNext()) {
 			String s = fInput.nextLine();
-			System.out.println(s);
+			//System.out.println(s);
 			int level = fInput.nextInt();
-			System.out.println(level);
+			//System.out.println(level);
 			double health = fInput.nextDouble();
-			System.out.println(health);
+			//System.out.println(health);
 			double EXP = fInput.nextDouble();
-			System.out.println(EXP);
+			//System.out.println(EXP);
 			String empty = fInput.nextLine();
 			String pic = fInput.nextLine();
-			System.out.println(pic);
+			//System.out.println(pic);
 			BufferedImage profilePic = null;
 			if (!pic.equals("none")) {
 				try {
@@ -64,17 +64,17 @@ public class FileClass { // Need to still be able to check against a list of
 		int index = 0;
 		while (fInput.hasNext()) {
 			String title = fInput.nextLine();
-			System.out.println(index + " " + title);
+			//System.out.println(index + " " + title);
 			if (title.equals("!@#$%^&*()")){
 				title = "";
 			}
 			String description = fInput.nextLine();
-			System.out.println(index + " " + description);
+			//System.out.println(index + " " + description);
 			if (description.equals("!@#$%^&*()")){
 				description = "";
 			}
 			int cklstSize = fInput.nextInt();
-			// System.out.println(cklstSize);
+			// //System.out.println(cklstSize);
 			String[] cklstItems = new String[cklstSize];
 			String empty = fInput.nextLine();
 			StringTokenizer sk = new StringTokenizer(fInput.nextLine(), "$");
@@ -83,12 +83,22 @@ public class FileClass { // Need to still be able to check against a list of
 				cklstItems[cnt] = sk.nextToken();
 				cnt++;
 			}
+			String cklstDoneS = fInput.nextLine();
+			boolean [] cklstDone = new boolean[cklstSize];
+			for (int i = 0; i < cklstSize; i++) {
+				if (cklstDoneS.charAt(i) == 'T'){
+					cklstDone[i] = true;
+				}
+				else{
+					cklstDone[i] = false;
+				}
+			}
 			int difficulty = fInput.nextInt();
-			System.out.println(title + difficulty);
+			//System.out.println(title + difficulty);
 			// System.out.println(difficulty);
 			empty = fInput.nextLine();
 			String repeatS = fInput.nextLine();
-			System.out.println(repeatS);
+			//System.out.println(repeatS);
 			boolean[] repeatA = new boolean[7];
 			for (int i = 0; i < repeatS.length(); i++) {
 				if (repeatS.charAt(i) == 'X') {
@@ -104,15 +114,10 @@ public class FileClass { // Need to still be able to check against a list of
 			// System.out.println("And this is another one.");
 			empty = fInput.nextLine();
 			// System.out.println(title);
-			Daily.dayList[index] = new Daily(title, description, cklstItems, difficulty, repeatA, complete);
+			Daily.dayList[index] = new Daily(title, description, cklstItems, cklstDone, difficulty, repeatA, complete);
 			index++;
 		}
 		fInput.close();
-
-		for (int i = 0; i < Daily.dayList.length; i++) {
-			if (Daily.dayList[i] != null)
-				System.out.println(Daily.dayList[i].getTitle());
-		}
 	}
 
 	public static void importToDos(String user) throws FileNotFoundException {
@@ -120,13 +125,13 @@ public class FileClass { // Need to still be able to check against a list of
 		int index = 0;
 		while (fInput.hasNext()) {
 			String title = fInput.nextLine();
-			System.out.println(title);
+			//System.out.println(title);
 			String description = fInput.nextLine();
-			System.out.println(description);
+			//System.out.println(description);
 			int importance = fInput.nextInt();
-			System.out.println(importance);
+			//System.out.println(importance);
 			int dueDate = fInput.nextInt();
-			System.out.println(dueDate);
+			//System.out.println(dueDate);
 			Color c = ToDo.generateRandomColor();
 			boolean done = fInput.nextBoolean();
 			String empty = fInput.nextLine();
@@ -134,10 +139,6 @@ public class FileClass { // Need to still be able to check against a list of
 			index++;
 		}
 		fInput.close();
-		for (int i = 0; i < Daily.dayList.length; i++) {
-			if (ToDo.toDos[i] != null)
-				System.out.println(ToDo.toDos[i].getTitle());
-		}
 	}
 	
 	// Search if user is in database
@@ -149,7 +150,7 @@ public class FileClass { // Need to still be able to check against a list of
 			
 			for (int i = 1; i <= cnt; i++) {
 				s = fInput.nextLine();
-				System.out.println(s);
+				//System.out.println(s);
 				if (s.equals(user.toUpperCase())){
 					fInput.close();
 					return true;
@@ -167,7 +168,7 @@ public class FileClass { // Need to still be able to check against a list of
 		ArrayList <String> data = new ArrayList <String>();
 		while(in.hasNextLine()){
 			data.add(in.nextLine());
-			System.out.println(data.get(data.size()-1));
+			//System.out.println(data.get(data.size()-1));
 		}
 		data.set(0, String.valueOf(Integer.parseInt(data.get(0)) + 1));
 		PrintWriter pw = new PrintWriter(new File("saves/users.txt"));
@@ -190,6 +191,8 @@ public class FileClass { // Need to still be able to check against a list of
 	
 	// Print all data to file
 	public static void exportData(String user) throws FileNotFoundException {
+		
+		// Export Dailies
 		PrintWriter pw = new PrintWriter(new File("saves/" + user.toUpperCase() + "/" + user.toUpperCase() + "dailies.txt"));
 		for (int i = 0; i < Daily.dayList.length; i++) {
 			if (Daily.dayList[i] != null) {
@@ -210,6 +213,16 @@ public class FileClass { // Need to still be able to check against a list of
 				}
 				pw.print(cklst[cklst.length - 1]);
 				pw.println();
+				String cklstDoneS = "";
+				for (int j = 0; j < cklst.length; j++) {
+					if (Daily.dayList[i].getChecklistDone()[j]){
+						cklstDoneS += "T";
+					}
+					else{
+						cklstDoneS += "F";
+					}
+				}
+				pw.println(cklstDoneS);
 				pw.println(Daily.dayList[i].getDifficulty());
 				boolean[] repeat = Daily.dayList[i].getRepeat();
 				String s = "";
@@ -248,7 +261,7 @@ public class FileClass { // Need to still be able to check against a list of
 				pw2.println(description);
 				pw2.println(ToDo.toDos[i].getImportance());
 				pw2.println(ToDo.toDos[i].getDueDate());
-				System.out.println(ToDo.toDos[i].getDone());
+				//System.out.println(ToDo.toDos[i].getDone());
 				if (ToDo.toDos[i].getDone()){
 					pw2.println("true");
 				}
@@ -265,11 +278,11 @@ public class FileClass { // Need to still be able to check against a list of
 		in.nextLine();
 		in.nextLine();
 		String location = in.nextLine();
-		System.out.println(location);
+		//System.out.println(location);
 		in.close();
 		// Add to file
 		PrintWriter pw3 = new PrintWriter(new File("saves/" + user.toUpperCase() + "/" + user.toUpperCase() + "data.txt"));
-		System.out.println("Username: " + user);
+		//System.out.println("Username: " + user);
 		pw3.println(user);
 		pw3.println(Character.user.getLevel());
 		pw3.println(Character.user.getHealth());

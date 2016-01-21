@@ -7,7 +7,7 @@ University Applications
 Hand in uni apps!
 10
 30
-false
+true
 Finish reading The Checklist Manifesto
 Read the book!
 5
@@ -28,3 +28,18 @@ asdfasdf
 3
 2
 true
+!@#$%^&*()
+!@#$%^&*()
+5
+3
+false
+!@#$%^&*()
+!@#$%^&*()
+5
+3
+false
+!@#$%^&*()
+!@#$%^&*()
+5
+3
+false

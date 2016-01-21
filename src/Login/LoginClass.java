@@ -67,10 +67,10 @@ public class LoginClass {
 		JButton newUserB = new JButton("New User");
 		newUserB.addActionListener(new ActionListener() {
 			public void actionPerformed(ActionEvent e) {
+				userTF.repaint();
 				String user = userTF.getText();
-				System.out.println(user);
-				if(FileClass.findUser(user)){
-					System.out.println("Username already taken");
+				if(FileClass.findUser(user) || user.equals("")){
+					System.out.println("Username already taken or nothing was entered.");
 				}
 				else{
 					try {
@@ -88,7 +88,14 @@ public class LoginClass {
 				}
 			}
 		});
+		JButton tutorialButton = new JButton("Tutorial");
+		tutorialButton.addActionListener(new ActionListener() {
+			public void actionPerformed(ActionEvent e) {
+				tutorial();
+			}
+		});
 		topPanel.add(newUserB);
+		topPanel.add(tutorialButton);
 		
 		JPanel loginButtonP = new JPanel(new BorderLayout());
 		loginButtonP.setBackground(Color.DARK_GRAY);
@@ -100,7 +107,7 @@ public class LoginClass {
 		loginB.addActionListener(new ActionListener() {
 			public void actionPerformed(ActionEvent e) {
 				String user = userTF.getText();
-				System.out.println(user);
+				//System.out.println(user);
 				if (FileClass.findUser(user)){
 					FileClass.importAll(user);
 					window.dispose();
@@ -133,6 +140,10 @@ public class LoginClass {
 		window.getContentPane().add(overlordP, BorderLayout.CENTER);
 		window.setVisible(true);
 	}
+	// MAYBE ADD THIS
+	public static void tutorial(){
+		
+	}
 	
 	public static int dayOfWeek() {
 		Calendar c = Calendar.getInstance();
@@ -142,6 +153,6 @@ public class LoginClass {
 		int day_of_week = c.get(Calendar.DAY_OF_WEEK);
 		// Monday = 4??? Such witchcraft!
 		System.out.println("The day of the week is " + day_of_week);
-		return day_of_week - 3;
+		return day_of_week;
 	}
 }

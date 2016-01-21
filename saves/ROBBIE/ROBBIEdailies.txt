@@ -1,36 +1,36 @@
-CompSci Project
-Work on my computer science project
+Work On Chemistry
+!@#$%^&*()
+1
+Enter
+F
 5
-Plan$30min$45min$1hour$Commit
-FFFFF
-9
 XXXXXXX
 false
 �END�
-Math Homework
+!@#$%^&*()
 !@#$%^&*()
 1
 Enter
 F
-3
+5
 XXXXXXX
 false
 �END�
-Got 8 Hours of Sleep
+!@#$%^&*()
 !@#$%^&*()
 1
 Enter
 F
-1
+5
 XXXXXXX
 false
 �END�
-Teach Sister Java
+!@#$%^&*()
 !@#$%^&*()
 1
 Enter
 F
-2
+5
 XXXXXXX
 false
 �END�

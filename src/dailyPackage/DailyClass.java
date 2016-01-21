@@ -56,6 +56,8 @@ public class DailyClass {
 	static JButton[] repeatButtons = new JButton[7];
 	static JButton[] upRepeatButtons = new JButton[7];
 	static boolean[] repeat = { true, true, true, true, true, true, true };
+	
+	static JButton[] cklistButtons;
 
 	public static JScrollPane initiateDailyPanel() throws FileNotFoundException {
 
@@ -111,19 +113,22 @@ public class DailyClass {
 	public static void updateDailyPanel() {
 		if (newDailyP != null && newDailyP.getParent() == dayPanel) {
 			dayPanel.remove(newDailyP);
-			Status.updateDailyStatsPanel();
-			System.out.println("THere should be change");
 		} else if (upDailyP != null && upDailyP.getParent() == dayPanel) {
 			dayPanel.remove(upDailyP);
-			Status.updateDailyStatsPanel();
-			System.out.println("THere should be change");
 		}
-
+		
 		// Contains all the daily tasks in jcheckboxes
 		dayTaskP = new JPanel();
 		GridBagLayout gbl = new GridBagLayout();
 		dayTaskP.setLayout(gbl);
-
+		int numOfDailies = 0;
+		Daily.destroyEmpty();
+		for (int i = 0; i < Daily.dayList.length; i++) {
+			if (Daily.dayList[i] != null) {
+				numOfDailies++;
+			}
+		}
+		cklistButtons = new JButton[numOfDailies];
 		for (int i = 0; i < Daily.dayList.length; i++) {
 			if (Daily.dayList[i] != null) {
 				JPanel taskP = new JPanel(new BorderLayout());
@@ -137,7 +142,7 @@ public class DailyClass {
 				itemCB.setFont(f);
 				itemCB.setOpaque(false);
 
-				System.out.println(i + " " + Daily.dayList[i].getRepeat()[LoginClass.dayOfWeek()]);
+				//System.out.println(i + " " + Daily.dayList[i].getRepeat()[LoginClass.dayOfWeek()]);
 
 				if (Daily.dayList[i].getRepeat()[LoginClass.dayOfWeek()] == false) {
 					taskP.setBackground(Color.DARK_GRAY);
@@ -147,11 +152,14 @@ public class DailyClass {
 				}
 
 				taskP.add(itemCB, BorderLayout.WEST);
+				//System.out.println(taskP);
+				cklistButtons[i] = new JButton("+");
+				cklistButtons[i].setActionCommand("small");
+				cklistButtons[i].setPreferredSize(new Dimension(40,20));
 
-				JButton dayTaskB = new JButton("+");
-				// dayTaskB.setPreferredSize(new Dimension(40,20));
-				dayTaskB.addActionListener(new ExtendedCloseUDListener(i));
-				taskP.add(dayTaskB, BorderLayout.EAST);
+				cklistButtons[i].addActionListener(new ExtendedCloseUDListener(i));
+				//cklistButtons[i].addActionListener(new ExtendedAddRemCklistPanel(i));
+				taskP.add(cklistButtons[i], BorderLayout.EAST);
 
 				GridBagConstraints gbc = new GridBagConstraints();
 				gbc.anchor = GridBagConstraints.NORTHWEST;
@@ -162,12 +170,19 @@ public class DailyClass {
 			}
 		}
 		dayPanel.add(dayTaskP, BorderLayout.CENTER);
+
+		if (Status.statsPanel != null){
+			Status.updateDailyStatsPanel();
+			System.out.println("Updated");
+		}
+		
 		Program.window.repaint();
 	}
 
 	// User clicks newDailyB and this method is called
 	// createNewDaily creates the new daily pane that users can edit to create a
 	// daily
+	
 	public static void createNewDailyPanel() {
 		dayPanel.remove(dayTaskP);
 
@@ -273,7 +288,7 @@ public class DailyClass {
 	// Adds information from user input to a new Daily object and then to the
 	// dayList array
 	public static void addDailyInfo(int index) {
-		System.out.println(index);
+		//System.out.println(index);
 		if (Daily.dayList[index] == null) {
 			Daily.dayList[index] = new Daily();
 			Daily.dayList[index].setComplete(false);
@@ -295,9 +310,12 @@ public class DailyClass {
 			cklst[i] = (sk.nextToken());
 		}
 		Daily.dayList[index].setChecklist(cklst);
+		// Just add all false :)
+		boolean[] cklstDone = new boolean[cLength];
+		Daily.dayList[index].setChecklistDone(cklstDone);
 		Daily.dayList[index].setDifficulty(diffS.getValue());
 		for (int i = 0; i < repeat.length; i++) {
-			System.out.println(repeat[i] + " ");
+			//System.out.println(repeat[i] + " ");
 		}
 		Daily.dayList[index].setRepeat(repeat);
 	}
@@ -376,7 +394,7 @@ public class DailyClass {
 				upRepeatButtons[i].setActionCommand("no repeat");
 				upRepeatButtons[i].setForeground(Color.BLACK);
 			}
-			System.out.println(i);
+			//System.out.println(i);
 			upRepeatButtons[i].addActionListener(new ExtendedRepeatBUpListener(index, i));
 			daysOfWeekP1.add(upRepeatButtons[i]);
 		}
@@ -408,7 +426,6 @@ public class DailyClass {
 				newDailyB.setEnabled(true);
 				updateDailyPanel();
 			}
-
 		});
 		completeB = new JButton("Done");
 		completeB.addActionListener(new ExtendedUDListener(index));
@@ -430,7 +447,8 @@ public class DailyClass {
 		dayPanel.add(upDailyP, BorderLayout.CENTER);
 		Program.window.repaint();
 	}
-
+	
+	
 	static class newDailyBLis implements ActionListener {
 		public void actionPerformed(ActionEvent e) {
 			newDailyB.setEnabled(false);

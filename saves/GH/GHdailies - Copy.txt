@@ -1,0 +1,27 @@
+﻿English
+Read Write Do Eng
+3
+Read$Write$Swag
+TFT
+3
+XXXXXXX
+false
+�END�
+CompSci
+1 Hour of compsci work, overview all units and study for exam
+5
+Commit$Logging$1 Hour$2 Hour$3 Hour
+TTTTT
+4
+XXXXXXX
+false
+�END�
+!@#$%^&*()
+!@#$%^&*()
+1
+Enter
+F
+5
+XXXXXXX
+false
+�END�

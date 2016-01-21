@@ -133,20 +133,16 @@ public class Program {
 	// Adds the second pane called Schedule which contains the list of dailies
 	// and list of to-dos
 	public static void createSchedulePane() throws IOException {
-
-		JPanel schedule = new JPanel();
-		schedule.setLayout(new BorderLayout());
+		JPanel schedule = new JPanel(new BorderLayout());
 
 		schedule.add(Status.initiateStatsPanel(), BorderLayout.WEST);
 
-		// schedule.add(cklstListPanel, BorderLayout.WEST);
-		//schedule.add(characterPanel, BorderLayout.NORTH);
-
-		tabbedPane.addTab("Schedule & Optimization", null, schedule, null);
+		tabbedPane.addTab("Optimization", null, schedule, null);
 	}
 
 	// Adds the third pane called Stats which contains graphs and charts on the
 	// user's dailies and to-dos
+	/*
 	public static void createStatsPane() throws IOException {
 		JPanel backP = new JPanel(new BorderLayout());
 		JPanel stats = new JPanel();
@@ -166,5 +162,6 @@ public class Program {
 
 		tabbedPane.addTab("Stats", null, backP, null);
 	}
+	*/
 
 }

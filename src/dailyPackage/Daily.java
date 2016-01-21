@@ -5,18 +5,20 @@ import java.util.ArrayList;
 public class Daily {
 	private String title;
 	private String memo;
-	private String[] checklist;
+	private String [] checklist;
+	private boolean [] checklistDone;
 	private int difficulty;
 	private boolean[] repeat;
 	private boolean complete;
 
 	public static Daily[] dayList = new Daily[100]; // Stores Dailies that need to be completed
 
-	public Daily(String t, String m, String[] cklst, int d, boolean[] r, boolean comp) {
+	public Daily(String t, String m, String[] cklst, boolean [] cklstD, int d, boolean[] r, boolean comp) {
 
 		title = t;
 		memo = m;
 		checklist = cklst;
+		checklistDone = cklstD;
 		difficulty = d;
 		repeat = r;
 		complete = comp;
@@ -48,6 +50,13 @@ public class Daily {
 
 	public void setChecklist(String[] c) {
 		this.checklist = c;
+	}
+	public boolean[] getChecklistDone() {
+		return this.checklistDone;
+	}
+
+	public void setChecklistDone(boolean[] cd) {
+		this.checklistDone = cd;
 	}
 
 	public int getDifficulty() {
