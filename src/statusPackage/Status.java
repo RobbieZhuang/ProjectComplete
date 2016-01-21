@@ -83,13 +83,13 @@ public class Status {
 		p2.add(titleLL, BorderLayout.NORTH);
 
 		int index = 1;
-		for (int i = 0; i < ToDo.toDos.length; i++) {
-			if (ToDo.toDos[i] != null && !ToDo.toDos[i].getDone()) {
+		for (int i = 0; i < ToDo.toDoList.length; i++) {
+			if (ToDo.toDoList[i] != null && !ToDo.toDoList[i].getDone()) {
 				GridBagConstraints gbc1 = new GridBagConstraints();
 				gbc1.anchor = GridBagConstraints.NORTHWEST;
 				gbc1.gridx = 1;
 				gbc1.weighty = 1;
-				JLabel jl = new JLabel(index + ") " + ToDo.toDos[i].getTitle());
+				JLabel jl = new JLabel(index + ") " + ToDo.toDoList[i].getTitle());
 				jl.setPreferredSize(new Dimension(450, 30));
 				jl.setFont(new Font("Century", Font.PLAIN, 18));
 				jl.setOpaque(true);

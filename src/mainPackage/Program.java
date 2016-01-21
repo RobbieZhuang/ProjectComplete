@@ -52,12 +52,14 @@ public class Program {
 		window = new JFrame("Project: Complete");
 		window.setSize(1080, 800);
 		window.setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
+		window.setLocationRelativeTo(null);
 		window.setResizable(false);
 		// http://stackoverflow.com/questions/9093448/do-something-when-the-close-button-is-clicked-on-a-jframe
 		window.addWindowListener(new java.awt.event.WindowAdapter() {
 			@Override
 			public void windowClosing(java.awt.event.WindowEvent windowEvent) {
 				try {
+					Character.user.setDate();
 					FileClass.exportData(Character.user.getName().toUpperCase());
 				} catch (FileNotFoundException e) {
 				}
@@ -112,6 +114,9 @@ public class Program {
 		// the user's dailies and to-dos
 		// createStatsPane();
 
+		
+		// Check if all dailies are done from previous day and resets dailies
+		DailyClass.checkDailies();
 		// Sets the main JFrame to visible
 		window.setVisible(true);
 	}

@@ -14,13 +14,13 @@ public class ExtendedDoneListener implements ActionListener {
 	}
 
 	public void actionPerformed(ActionEvent e) {
-		ToDo.toDos[index].setDone(true);
+		ToDo.toDoList[index].setDone(true);
 		try {
 			TasksSPClass.addScatterPlot();
 		} catch (IOException error) {
 		}
 		TaskPopup.popF.dispose();
-		Character.taskComplete(ToDo.toDos[index].getImportance());
+		Character.taskComplete(ToDo.toDoList[index].getImportance());
 		Status.updateDailyStatsPanel();
 	}
 }

@@ -87,8 +87,6 @@ public class CharacterClass {
 		JProgressBar expPB = new JProgressBar(0, 100);
 		JLabel expNumL = new JLabel();
 
-		System.out.println("Character data from user Character object EXP: " + Character.user.getEXP());
-
 		healthPB.setValue((int) Character.user.getHealth());
 		expPB.setValue((int) (((double) Character.user.getEXP() / Character.user.getEXPCap()) * 100.0));
 

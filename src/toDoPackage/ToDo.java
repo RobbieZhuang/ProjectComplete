@@ -3,6 +3,7 @@ package toDoPackage;
 import java.awt.Color;
 import java.util.Random;
 
+// The ToDo object: This object contains all the data for a single to do (from the Advanced Checklis)
 public class ToDo {
 	private String title;
 	private String description;
@@ -11,7 +12,8 @@ public class ToDo {
 	private Color colour;
 	private boolean done;
 
-	public static ToDo[] toDos = new ToDo[100];
+	// The toDoList array which contains all the toDos
+	public static ToDo[] toDoList = new ToDo[1000];
 
 	public ToDo(String t, String d, int i, int dD, Color c, boolean done) {
 		this.title = t;
@@ -88,11 +90,11 @@ public class ToDo {
 
 	// Find out the lowest index without an object in array
 	public static int lowestIndex() {
-		int lowest = toDos.length - 1;
-		if (toDos[0] == null)
+		int lowest = toDoList.length - 1;
+		if (toDoList[0] == null)
 			return 0;
-		for (int i = toDos.length - 1; i >= 0; i--) {
-			if (i > 1 && toDos[i] == null && toDos[i - 1] == null) {
+		for (int i = toDoList.length - 1; i >= 0; i--) {
+			if (i > 1 && toDoList[i] == null && toDoList[i - 1] == null) {
 				lowest--;
 			}
 		}
@@ -103,15 +105,15 @@ public class ToDo {
 	public static void addColor(int index) {
 		Color c = generateRandomColor();
 		int cnt = 0;
-		for (int j = 0; j < toDos.length; j++) {
-			if (toDos[j] != null && toDos[j].getColour() != null && toDos[j].getColour().equals(c)) {
+		for (int j = 0; j < toDoList.length; j++) {
+			if (toDoList[j] != null && toDoList[j].getColour() != null && toDoList[j].getColour().equals(c)) {
 				cnt++;
 			}
 		}
 		if (cnt > 0) {
 			addColor(index);
 		} else {
-			toDos[index].setColour(c);
+			toDoList[index].setColour(c);
 		}
 	}
 

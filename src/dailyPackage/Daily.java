@@ -11,7 +11,7 @@ public class Daily {
 	private boolean[] repeat;
 	private boolean complete;
 
-	public static Daily[] dayList = new Daily[100]; // Stores Dailies that need to be completed
+	public static Daily[] dayList = new Daily[1000]; // Stores Dailies that need to be completed
 
 	public Daily(String t, String m, String[] cklst, boolean [] cklstD, int d, boolean[] r, boolean comp) {
 

@@ -11,6 +11,7 @@ import java.awt.GridLayout;
 import java.awt.event.ActionEvent;
 import java.awt.event.ActionListener;
 import java.io.FileNotFoundException;
+import java.util.Date;
 import java.util.Random;
 import java.util.StringTokenizer;
 
@@ -27,6 +28,7 @@ import javax.swing.SwingConstants;
 import javax.swing.border.LineBorder;
 
 import Login.LoginClass;
+import characterPackage.Character;
 import mainPackage.Program;
 import net.miginfocom.swing.MigLayout;
 import statusPackage.Status;
@@ -60,19 +62,16 @@ public class DailyClass {
 	static JButton[] cklistButtons;
 
 	public static JScrollPane initiateDailyPanel() throws FileNotFoundException {
-
+		
 		dayPanel = new JPanel();
 		dayPanel.setBorder(new LineBorder(Color.DARK_GRAY, 2, true));
-		// dayPanel.setBackground(Color.DARK_GRAY);
 		dayPanel.setLayout(new BorderLayout());
 
 		JPanel titleP = new JPanel();
 		titleP.setLayout(new BorderLayout());
 
 		JLabel titleL = new JLabel("Dailies");
-		// titleL.setForeground(Color.BLACK);
 		titleL.setFont(new Font("Century", Font.PLAIN, 20));
-		// titleL.setBackground(Color.DARK_GRAY);
 		titleL.setHorizontalAlignment(SwingConstants.CENTER);
 
 		newDailyB = new JButton("New Daily");
@@ -90,14 +89,29 @@ public class DailyClass {
 		return jSP;
 	}
 
-	// http://stackoverflow.com/questions/43044/algorithm-to-randomly-generate-an-aesthetically-pleasing-color-palette
+	@SuppressWarnings("deprecation")
+	public static void checkDailies(){
+		Date d = new Date();
+		if (d.getDate() != Character.user.getDate().getDate()){
+			
+			for (int i = 0; i < Daily.dayList.length; i++) {
+				if (Daily.dayList[i] != null){
+					if (!Daily.dayList[i].getComplete() && Daily.dayList[i].getRepeat()[LoginClass.dayOfWeek()]){
+						Character.dailyIncomplete(Daily.dayList[i].getDifficulty());
+					}
+					Daily.dayList[i].setComplete(false);
+				}
+				
+			}
+		}
+	}
+	// Generates a random colour based off a white background so the colours are light
 	public static Color generateRandomColor() {
-		Random random = new Random();
-		int red = random.nextInt(256);
-		int green = random.nextInt(256);
-		int blue = random.nextInt(256);
+		Random r = new Random();
+		int red = r.nextInt(256);
+		int green = r.nextInt(256);
+		int blue = r.nextInt(256);
 		Color mix = new Color(255, 255, 255);
-		// mix the color
 		if (mix != null) {
 			red = (red + mix.getRed()) / 2;
 			green = (green + mix.getGreen()) / 2;
@@ -142,8 +156,6 @@ public class DailyClass {
 				itemCB.setFont(f);
 				itemCB.setOpaque(false);
 
-				//System.out.println(i + " " + Daily.dayList[i].getRepeat()[LoginClass.dayOfWeek()]);
-
 				if (Daily.dayList[i].getRepeat()[LoginClass.dayOfWeek()] == false) {
 					taskP.setBackground(Color.DARK_GRAY);
 					itemCB.setForeground(Color.LIGHT_GRAY);
@@ -152,7 +164,6 @@ public class DailyClass {
 				}
 
 				taskP.add(itemCB, BorderLayout.WEST);
-				//System.out.println(taskP);
 				cklistButtons[i] = new JButton("+");
 				cklistButtons[i].setActionCommand("small");
 				cklistButtons[i].setPreferredSize(new Dimension(40,20));
@@ -173,7 +184,6 @@ public class DailyClass {
 
 		if (Status.statsPanel != null){
 			Status.updateDailyStatsPanel();
-			System.out.println("Updated");
 		}
 		
 		Program.window.repaint();
@@ -288,7 +298,6 @@ public class DailyClass {
 	// Adds information from user input to a new Daily object and then to the
 	// dayList array
 	public static void addDailyInfo(int index) {
-		//System.out.println(index);
 		if (Daily.dayList[index] == null) {
 			Daily.dayList[index] = new Daily();
 			Daily.dayList[index].setComplete(false);
@@ -314,9 +323,6 @@ public class DailyClass {
 		boolean[] cklstDone = new boolean[cLength];
 		Daily.dayList[index].setChecklistDone(cklstDone);
 		Daily.dayList[index].setDifficulty(diffS.getValue());
-		for (int i = 0; i < repeat.length; i++) {
-			//System.out.println(repeat[i] + " ");
-		}
 		Daily.dayList[index].setRepeat(repeat);
 	}
 
@@ -394,7 +400,6 @@ public class DailyClass {
 				upRepeatButtons[i].setActionCommand("no repeat");
 				upRepeatButtons[i].setForeground(Color.BLACK);
 			}
-			//System.out.println(i);
 			upRepeatButtons[i].addActionListener(new ExtendedRepeatBUpListener(index, i));
 			daysOfWeekP1.add(upRepeatButtons[i]);
 		}

@@ -2,6 +2,8 @@ package characterPackage;
 
 import java.awt.Color;
 import java.awt.image.BufferedImage;
+import java.util.Calendar;
+import java.util.Date;
 import java.util.Random;
 
 import javax.swing.ImageIcon;
@@ -16,25 +18,26 @@ public class Character {
 	private double EXP;
 	private BufferedImage pic;
 	private int levelEXPCap;
-	// Declare character (for testing purposes)
 	public static Character user;
-	// static Character user = LoginClass.c();
+	private Date lastLogin;
 
-	public Character(String name, int level, double health, double EXP, BufferedImage pic) {
+	public Character(String name, int level, double health, double EXP, BufferedImage pic, Date day) {
 		this.name = name;
 		this.level = level;
 		this.health = health;
 		this.EXP = EXP;
 		this.levelEXPCap = 100 + (this.level-1)*50;
 		this.pic = pic;
+		this.lastLogin = day;
 	}
 
-	public Character(String name, int level, double health, double EXP) {
+	public Character(String name, int level, double health, double EXP, Date day) {
 		this.name = name;
 		this.level = level;
 		this.health = health;
 		this.EXP = EXP;
 		this.levelEXPCap = 100 + (this.level-1)*50;
+		this.lastLogin = day;
 	}
 
 	public Character(String name, int level) {
@@ -43,6 +46,7 @@ public class Character {
 		this.health = 100;
 		this.EXP = 100;
 		this.levelEXPCap = 100 + (this.level-1)*50;
+		this.lastLogin = new Date();
 	}
 
 	public void setName(String name) {
@@ -92,46 +96,73 @@ public class Character {
 	public void setImage(BufferedImage pic) {
 		this.pic = pic;
 	}
-
+	
+	public Date getDate() {
+		return lastLogin;
+	}
+	public void setDate(){
+		lastLogin = new Date();
+	}
+	
 	public static void dailyComplete(int difficulty) {
 		double n = 10 * difficulty * Math.random();
 		user.EXP += n;
-		new PopupMessage("+" + (int) n + " EXP.", Color.DARK_GRAY);
-		updateLevel();
+		new PopupMessage("+" + (int) n + " EXP.", Color.DARK_GRAY, false);
+		gainLevel();
 		CharacterClass.updateStatsPanel();
 	}
 
 	public static void dailyUnComplete(int difficulty) {
 		double n = 10 * difficulty * Math.random();
 		user.EXP -= n;
-		new PopupMessage("-" + (int) n + " EXP.", Color.DARK_GRAY);
+		new PopupMessage("-" + (int) n + " EXP.", Color.DARK_GRAY, true);
 		CharacterClass.updateStatsPanel();
 	}
 
 	public static void dailyIncomplete(int difficulty) {
-		double n = 10 * (1 / difficulty);
+		double n = (difficulty)*0.5;
 		user.health -= n;
-		new PopupMessage("Oh no, you have lost " + (int) n + " health!", Color.DARK_GRAY);
+		System.out.println(user.getHealth());
+		if (user.getHealth() <= 0){
+			loseLevel();
+		}
+		else{
+			new PopupMessage("You have lost some health.", Color.DARK_GRAY, false);
+		}
 		CharacterClass.updateStatsPanel();
 	}
 
 	public static void taskComplete(int difficulty) {
 		double n = 10 * difficulty * Math.random();
 		user.EXP += n;
-		System.out.println("EXP :" + user.EXP);
-		new PopupMessage("+" + (int) n + " EXP.", Color.DARK_GRAY);
-		updateLevel();
+		new PopupMessage("+" + (int) n + " EXP.", Color.DARK_GRAY, false);
+		gainLevel();
 		CharacterClass.updateStatsPanel();
 	}
-	public static void updateLevel(){
+	public static void gainLevel(){
 		double EXP = user.getEXP();
 		if (EXP >= user.getEXPCap()){
 			user.setLevel(user.getLevel() + 1);
 			user.setEXP(EXP - user.getEXPCap());
-			new PopupMessage("Level Up! To level " + user.getLevel() + " .", generateRandomColor());
-			System.out.println("Level = " + user.getLevel());
+			user.setHealth(100.0);
+			new PopupMessage("Level up to level " + user.getLevel() + " .", generateRandomColor(), true);
 			user.setEXPCap();
 		}
+		CharacterClass.updateImportantStats();
+	}
+	public static void loseLevel(){
+		if (user.level == 1){
+			user.setEXP(0.0);
+			user.setHealth(100.0);
+			new PopupMessage("You cannot lose another level " + user.getLevel() + " .", generateRandomColor(), true);
+		}
+		else{
+			user.setEXP(0.0);
+			user.setHealth(100.0);
+			user.setLevel(user.getLevel()-1);
+			new PopupMessage("Oh no, you have lost a level! You are now level " + user.getLevel() + " .", generateRandomColor(), true);
+		}
+		CharacterClass.updateStatsPanel();
 		CharacterClass.updateImportantStats();
 	}
 	// http://stackoverflow.com/questions/43044/algorithm-to-randomly-generate-an-aesthetically-pleasing-color-palette
@@ -151,4 +182,6 @@ public class Character {
 		Color color = new Color(red, green, blue);
 		return color;
 	}
+
+	
 }

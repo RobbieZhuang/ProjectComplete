@@ -23,10 +23,15 @@ import javax.swing.UIManager;
 import javax.swing.UnsupportedLookAndFeelException;
 import javax.swing.border.EmptyBorder;
 
+// This class sets up a new JFrame containing a message which fades in and out using a class that builds the popus and draws the 
+// transitional background
 //http://stackoverflow.com/questions/23841518/how-to-pop-up-a-text-boxor-tooltip-via-script-in-java
 public class PopupMessage {
 	private static Color col;
-	public PopupMessage(final String s, Color c) {
+	public static boolean onT;
+	// Get the message, the colour and a timer for how long to set the message
+	public PopupMessage(final String s, Color c, boolean isOnTop) {
+		onT = isOnTop;
 		col = c;
 		EventQueue.invokeLater(new Runnable() {
 			@Override
@@ -38,7 +43,7 @@ public class PopupMessage {
 					ex.printStackTrace();
 				}
 				new PopupMessageBuilder().withDelay(1000).withMessage(s)
-						.at(new Point((int) (Program.window.getX() + Program.window.getSize().getWidth() / 2) - 50,
+						.at(new Point((int) (Program.window.getX() + Program.window.getSize().getWidth() / 2) - 100,
 								(int) (Program.window.getY() + Program.window.getSize().getHeight()) - 100))
 						.show();
 			}
@@ -72,7 +77,7 @@ public class PopupMessage {
 		public PopupMessageBuilder show() {
 
 			final JWindow frame = new JWindow();
-			frame.setOpacity(0f);
+			frame.setOpacity(0.92f);
 			frame.setBackground(col);
 			BackgroundPane pane = new BackgroundPane();
 			pane.setMessage(message);
@@ -84,7 +89,7 @@ public class PopupMessage {
 				frame.setLocation(location);
 			}
 			frame.setVisible(true);
-			frame.setAlwaysOnTop(true);
+			frame.setAlwaysOnTop(onT);
 
 			new FadeTimer(frame, 1000, 0f, 1f, new ActionListener() {
 				@Override
@@ -188,7 +193,7 @@ public class PopupMessage {
 				g2d.setRenderingHint(RenderingHints.KEY_RENDERING, RenderingHints.VALUE_RENDER_QUALITY);
 				g2d.setRenderingHint(RenderingHints.KEY_STROKE_CONTROL, RenderingHints.VALUE_STROKE_PURE);
 				LinearGradientPaint glp = new LinearGradientPaint(new Point(0, 0), new Point(0, getHeight()),
-						new float[] { 0f, 1f }, new Color[] { Color.GRAY, Color.BLACK });
+						new float[] { 0f, 1f }, new Color[] { Color.DARK_GRAY, Color.LIGHT_GRAY});
 				RoundRectangle2D frame = new RoundRectangle2D.Float(0, 0, getWidth() - 1, getHeight() - 1, 20, 20);
 				g2d.setPaint(glp);
 				g2d.fill(frame);

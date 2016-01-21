@@ -1,31 +1,40 @@
-﻿English
-Read Write Do Eng
-3
-Read$Write$Swag
-FFF
-3
-XXXXXXX
-false
-�END�
-CompSci
-1 Hour of compsci work, overview all units and study for exam
+﻿CompSci Project
+Work on my computer science project
 5
-Commit$Logging$1 Hour$2 Hour$3 Hour
-TTTTT
-4
-XXXXXXX
+Plan$30min$45min$1hour$Commit
+FFFFF
+9
+XXXXXYX
 false
 �END�
-asdfasdf2341234124
-asdfasdf
+Math Homework
+!@#$%^&*()
+1
+Enter
+F
+3
+XXXXXYX
+false
+�END�
+Got 8 Hours of Sleep
+!@#$%^&*()
+1
+Enter
+F
+1
+YYXXXYX
+false
+�END�
+Teach Sister Java
+!@#$%^&*()
+1
+Enter
+F
 2
-Enter$one
-FF
-5
 XXXXXXX
 false
 �END�
-REVALIDATE
+Do Work
 !@#$%^&*()
 1
 Enter
@@ -40,42 +49,6 @@ false
 Enter
 F
 5
-XXXXXXX
-false
-�END�
-!@#$%^&*()
-!@#$%^&*()
-1
-Enter
-F
-5
-XXXXXXX
-false
-�END�
-!@#$%^&*()
-!@#$%^&*()
-1
-Enter
-F
-5
-XXXXXXX
-false
-�END�
-!@#$%^&*()
-!@#$%^&*()
-1
-Enter
-F
-5
-XXXXXXX
-false
-�END�
-!@#$%^&*()
-!@#$%^&*()
-1
-Enter
-F
-5
-XXXXXXX
+XXXYYXX
 false
 �END�

@@ -1,45 +1,50 @@
-CompSci Project
-Complete Grade 11 AP Computer Science Project
-8
-2
-true
+Eat a cookie
+!@#$%^&*()
+1
+0
+false
 University Applications
-Hand in uni apps!
+This is very important!!!
 10
-30
-true
-Finish reading The Checklist Manifesto
-Read the book!
 5
+true
+Uni Apps
+!@#$%^&*()
+9
+5
+true
+Exams!
+!@#$%^&*()
+8
 7
 true
-Register for CCC
-Pay at SchoolCashNet and sign up through Waterloo
-8
-14
-true
-Fun stuff
-asdfasdfa
-5
-40
-false
-asdf
-asdfasdf
+Clean Bedroom
+Why do you make me do this, mom?
 3
-2
+30
+false
+!@#$%^&*()
+!@#$%^&*()
+5
+3
 true
 !@#$%^&*()
 !@#$%^&*()
 5
 3
-false
+true
 !@#$%^&*()
 !@#$%^&*()
 5
 3
-false
+true
+Fun work
+!@#$%^&*()
+5
+3
+true
 !@#$%^&*()
 !@#$%^&*()
 5
 3
-false
+true

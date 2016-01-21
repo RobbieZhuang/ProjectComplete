@@ -7,15 +7,10 @@ import java.awt.FlowLayout;
 import java.awt.Font;
 import java.awt.event.ActionEvent;
 import java.awt.event.ActionListener;
-import java.awt.image.BufferedImage;
-import java.io.File;
 import java.io.FileNotFoundException;
-import java.io.IOException;
-import java.net.MalformedURLException;
-import java.net.URL;
 import java.util.Calendar;
+import java.util.Date;
 
-import javax.imageio.ImageIO;
 import javax.swing.Icon;
 import javax.swing.ImageIcon;
 import javax.swing.JButton;
@@ -24,7 +19,6 @@ import javax.swing.JLabel;
 import javax.swing.JPanel;
 import javax.swing.JTextField;
 
-import dailyPackage.DailyClass;
 import mainPackage.Program;
 
 public class LoginClass {
@@ -146,13 +140,16 @@ public class LoginClass {
 	}
 	
 	public static int dayOfWeek() {
+		// get the day of the week in numerical format
+		Date now = new Date();
 		Calendar c = Calendar.getInstance();
-		c.set(Calendar.YEAR, 0);
-		c.set(Calendar.MONTH, 0);
-		c.set(Calendar.DATE, 0);
-		int day_of_week = c.get(Calendar.DAY_OF_WEEK);
-		// Monday = 4??? Such witchcraft!
-		System.out.println("The day of the week is " + day_of_week);
-		return day_of_week;
+        c.setTime(now);
+		System.out.println("The day of the week is " + c.get(Calendar.DAY_OF_WEEK)); 
+		int day = c.get(Calendar.DAY_OF_WEEK);
+		System.out.println(day);
+		if (day == 1){ day = 6; }
+		else if (day == 2){ day = 7; }
+		else { day -= 2; }
+		return day;
 	}
 }

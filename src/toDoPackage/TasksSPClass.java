@@ -51,9 +51,9 @@ public class TasksSPClass {
 	static JSlider impS;
 	static JSpinner dueS;
 	static java.awt.Point p;
-	static int[] sizes = new int[100];
-	static Paint[] colors = new Paint[100];
-	static int[] shapes = new int[100];
+	static int[] sizes = new int[1000];
+	static Paint[] colors = new Paint[1000];
+	static int[] shapes = new int[1000];
 
 	static class newToDoLis implements ActionListener {
 		public void actionPerformed(ActionEvent e) {
@@ -104,9 +104,9 @@ public class TasksSPClass {
 			p = MouseInfo.getPointerInfo().getLocation();
 			Paint color = r.getPixelColor((int) p.getX(), (int) p.getY());
 
-			for (int i = 0; i < ToDo.toDos.length; i++) {
-				if (ToDo.toDos[i] != null && ToDo.toDos[i].getColour() != null) {
-					if (color.equals(ToDo.toDos[i].getColour())) {
+			for (int i = 0; i < ToDo.toDoList.length; i++) {
+				if (ToDo.toDoList[i] != null && ToDo.toDoList[i].getColour() != null) {
+					if (color.equals(ToDo.toDoList[i].getColour())) {
 						return i;
 					}
 				}
@@ -123,8 +123,8 @@ public class TasksSPClass {
 		public void mouseClicked(MouseEvent event) {
 			int index = trackColour();
 			if (index != -1) {
-				String title = ToDo.toDos[index].getTitle();
-				String descrip = ToDo.toDos[index].getDescription();
+				String title = ToDo.toDoList[index].getTitle();
+				String descrip = ToDo.toDoList[index].getDescription();
 				System.out.println("Task: " + title);
 				System.out.println("Description: " + descrip);
 				TaskPopup.createPopup(index, title, descrip, p);
@@ -257,7 +257,7 @@ public class TasksSPClass {
 		int dD = (int) dueS.getValue();
 		System.out.println("DueDate " + dD);
 		int index = ToDo.lowestIndex();
-		ToDo.toDos[index] = new ToDo(title, descrip, i, dD);
+		ToDo.toDoList[index] = new ToDo(title, descrip, i, dD);
 		ToDo.addColor(index);
 
 		try {
@@ -270,14 +270,14 @@ public class TasksSPClass {
 	}
 
 	public static void populate() {
-		tasks = new float[ToDo.toDos.length][2];
+		tasks = new float[ToDo.toDoList.length][2];
 		for (int i = 0; i < tasks.length; i++) {
 
-			if (ToDo.toDos[i] != null) {
-				System.out.println("From SP" + i + " " + ToDo.toDos[i].getDone());
-				if (ToDo.toDos[i].getDone() != true) {
-					tasks[i][0] = ToDo.toDos[i].getDueDate();
-					tasks[i][1] = ToDo.toDos[i].getImportance();
+			if (ToDo.toDoList[i] != null) {
+				System.out.println("From SP" + i + " " + ToDo.toDoList[i].getDone());
+				if (ToDo.toDoList[i].getDone() != true) {
+					tasks[i][0] = ToDo.toDoList[i].getDueDate();
+					tasks[i][1] = ToDo.toDoList[i].getImportance();
 				} else {
 					tasks[i][0] = -1;
 					tasks[i][1] = -1;
@@ -288,8 +288,8 @@ public class TasksSPClass {
 			sizes[i] = 20;
 		}
 		for (int i = 0; i < colors.length; i++) {
-			if (ToDo.toDos[i] != null && ToDo.toDos[i].getColour() != null) {
-				colors[i] = ToDo.toDos[i].getColour();
+			if (ToDo.toDoList[i] != null && ToDo.toDoList[i].getColour() != null) {
+				colors[i] = ToDo.toDoList[i].getColour();
 			}
 		}
 		for (int i = 0; i < shapes.length; i++) {
