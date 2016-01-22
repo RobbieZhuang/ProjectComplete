@@ -36,6 +36,7 @@ import org.jfree.chart.axis.NumberAxis;
 import character.Character;
 import mainPackage.Program;
 import net.miginfocom.swing.MigLayout;
+import optimization.Schedule;
 
 public class TasksSPClass {
 
@@ -202,7 +203,7 @@ public class TasksSPClass {
 		} catch (IOException e) {
 
 		}
-
+		Schedule.updateTodoStatsPanel();
 		Program.window.repaint();
 	}
 
@@ -301,6 +302,7 @@ public class TasksSPClass {
 		}
 	}
 
+	// New Todo actionlistener
 	static class newToDoLis implements ActionListener {
 		public void actionPerformed(ActionEvent e) {
 			addNewToDoPanel();
@@ -308,6 +310,7 @@ public class TasksSPClass {
 		}
 	}
 
+	// When done adding new todo, this listener will be called
 	static class addToDoLis implements ActionListener {
 		public void actionPerformed(ActionEvent e) {
 			addToDoInfo();

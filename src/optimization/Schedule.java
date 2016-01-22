@@ -3,24 +3,21 @@ package optimization;
 import java.awt.BorderLayout;
 import java.awt.Color;
 import java.awt.Dimension;
-import java.awt.FlowLayout;
 import java.awt.Font;
 import java.awt.GridBagConstraints;
 import java.awt.GridBagLayout;
-import java.io.IOException;
-import java.util.Date;
+import java.util.ArrayList;
 
 import javax.swing.JLabel;
 import javax.swing.JPanel;
 import javax.swing.JScrollPane;
+import javax.swing.SwingConstants;
 import javax.swing.border.LineBorder;
 
-import character.Character;
 import dailies.Daily;
 import dailies.DailyClass;
 import mainPackage.Program;
 import todos.ToDo;
-import javax.swing.SwingConstants;
 
 public class Schedule {
 	public static JPanel statsPanel;
@@ -35,7 +32,7 @@ public class Schedule {
 		statsPanel = new JPanel(new BorderLayout());
 		
 		updateDailyStatsPanel();
-		updateToDoStatsPanel();
+		updateTodoStatsPanel();
 
 		statsPanel.setPreferredSize(new Dimension(1065, 600));
 		return statsPanel;
@@ -60,16 +57,16 @@ public class Schedule {
 		String[] optDailies = optimizedDailies();
 		System.out.println("Length " + optDailies.length);
 		for (int i = 0; i < optDailies.length; i++) {
-			JLabel jl = new JLabel((i + 1) + ") " + optDailies[i]);
-			jl.setPreferredSize(new Dimension(450, 40));
-			jl.setFont(new Font("Century", Font.PLAIN, 18));
-			jl.setOpaque(true);
-			jl.setBackground(DailyClass.generateRandomColor());
+			JLabel dailyLabel = new JLabel((i + 1) + ") " + optDailies[i]);
+			dailyLabel.setPreferredSize(new Dimension(450, 40));
+			dailyLabel.setFont(new Font("Century", Font.PLAIN, 18));
+			dailyLabel.setOpaque(true);
+			dailyLabel.setBackground(DailyClass.generateRandomColor());
 			GridBagConstraints gbc = new GridBagConstraints();
 			gbc.anchor = GridBagConstraints.NORTHWEST;
 			gbc.gridx = 1;
 			gbc.weighty = 1;
-			dailyStatsP.add(jl, gbc);
+			dailyStatsP.add(dailyLabel, gbc);
 		}
 		jSP = new JScrollPane(dailyStatsP);
 		jSP.setPreferredSize(new Dimension(475, 450));
@@ -83,7 +80,8 @@ public class Schedule {
 		Program.window.repaint();
 	}
 
-	public static void updateToDoStatsPanel() {
+	// Update the Todo schedule
+	public static void updateTodoStatsPanel() {
 		JPanel toDoStatsP = new JPanel(new GridBagLayout());
 		JPanel p2 = new JPanel(new BorderLayout());
 		p2.setBorder(new LineBorder(Color.DARK_GRAY, 2, true));
@@ -92,22 +90,19 @@ public class Schedule {
 		titleLL.setFont(new Font("Century", Font.PLAIN, 24));
 		p2.add(titleLL, BorderLayout.NORTH);
 
-		int index = 1;
-		for (int i = 0; i < ToDo.toDoList.length; i++) {
-			if (ToDo.toDoList[i] != null && !ToDo.toDoList[i].getDone()) {
-				GridBagConstraints gbc1 = new GridBagConstraints();
-				gbc1.anchor = GridBagConstraints.NORTHWEST;
-				gbc1.gridx = 1;
-				gbc1.weighty = 1;
-				JLabel jl = new JLabel(index + ") " + ToDo.toDoList[i].getTitle());
-				jl.setPreferredSize(new Dimension(450, 30));
-				jl.setFont(new Font("Century", Font.PLAIN, 18));
-				jl.setOpaque(true);
-				jl.setBorder(new LineBorder(new Color((float) Math.random(), (float) Math.random(), 0), 3));
-
-				toDoStatsP.add(jl, gbc1);
-				index++;
-			}
+		String [] optArray = optimizedTodos();
+		
+		for (int i = 0; i < optArray.length; i++) {
+			GridBagConstraints gbc1 = new GridBagConstraints();
+			gbc1.anchor = GridBagConstraints.NORTHWEST;
+			gbc1.gridx = 1;
+			gbc1.weighty = 1;
+			JLabel todoLabel = new JLabel((i+1) + ") " + optArray[i]);
+			todoLabel.setPreferredSize(new Dimension(450, 30));
+			todoLabel.setFont(new Font("Century", Font.PLAIN, 18));
+			todoLabel.setOpaque(true);
+			todoLabel.setBackground(DailyClass.generateRandomColor());
+			toDoStatsP.add(todoLabel, gbc1);
 		}
 		p2.add(toDoStatsP, BorderLayout.CENTER);
 		statsPanel.add(p2, BorderLayout.EAST);
@@ -120,7 +115,6 @@ public class Schedule {
 		int size = 0;
 		for (int i = 0; i < Daily.dayList.length; i++) {
 			if (Daily.dayList[i] != null && !Daily.dayList[i].getComplete()) {
-				System.out.println(Daily.dayList[i].getComplete());
 				size++;
 			}
 		}
@@ -153,5 +147,38 @@ public class Schedule {
 			System.out.println(oDailies[i].getTitle() + " " + oDailies[i].getDifficulty());
 		}
 		return items;
+	}
+	
+	// Optimizing the todos through with an array of coordinates indicating grids on the scatterplot
+	// Task that has the highest priority will be in the first box
+	public static String[] optimizedTodos(){
+		ArrayList <ToDo> items = new ArrayList<ToDo>();
+		for (int i = 0; i < ToDo.toDoList.length; i++) {
+			if (ToDo.toDoList[i] != null && !ToDo.toDoList[i].getDone()) {
+				items.add(ToDo.toDoList[i]);
+			}
+		}
+		ArrayList <String> finalList = new ArrayList<String>();
+		int [][] findArray = 	{{0, 1, 10, 7}, {0, 1, 7, 3}, {0, 1, 3, 1}, 
+								 {1, 4, 10, 7}, {1, 3, 7, 3}, {1, 2, 3, 1},
+								 {4, 8, 10, 7}, {3, 6, 7, 3}, {2, 4, 3, 1},
+								 				{6, 8, 7, 3}, {4, 8, 1, 3},
+				 				 {8,15, 10, 7}, {8,12, 7, 3},
+				 				 {15,59,10, 7}, {12,59,7, 3},
+				 				 {8, 59, 3, 1}
+								};
+		
+		for (int i = 0; i < findArray.length; i++){
+			for (int j = 0; j < items.size(); j++) {
+				if (items.get(j).getDueDate() >= findArray[i][0] &&
+					items.get(j).getDueDate() < findArray[i][1] &&
+					items.get(j).getImportance() <= findArray[i][2] &&
+					items.get(j).getImportance() > findArray[i][3]){
+					finalList.add(items.get(j).getTitle()); 
+				}
+			}
+		}
+		String [] list = finalList.toArray(new String[finalList.size()]);
+		return list;
 	}
 }

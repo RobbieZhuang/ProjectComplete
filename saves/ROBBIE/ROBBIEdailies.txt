@@ -1,25 +1,27 @@
-Work On Chemistry
+﻿Computer Science
 !@#$%^&*()
 1
-Enter
-F
-5
-XXXYXXX
-false
-�END�
-Computer Science
-!@#$%^&*()
-1
-Enter
+Code!
 F
 5
 XXXYYYX
 false
 �END�
+Chemistry Homework
+Lots of work to do!
+3
+Nomenclature
+Stoich
+Balancing Equations
+F
+5
+XXXYXXX
+false
+�END�
 Math Homework
 !@#$%^&*()
 1
-Enter
+Practice Problems
 F
 5
 XXXYXXX
