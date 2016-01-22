@@ -135,11 +135,7 @@ public class LoginClass {
 		Date now = new Date();
 		Calendar c = Calendar.getInstance();
         c.setTime(now);
-		int day = c.get(Calendar.DAY_OF_WEEK);
-		System.out.println(day);
-		if (day == 1){ day = 6; }
-		else if (day == 2){ day = 7; }
-		else { day -= 2; }
+		int day = c.get(Calendar.DAY_OF_WEEK)-1;
 		return day;
 	}
 }

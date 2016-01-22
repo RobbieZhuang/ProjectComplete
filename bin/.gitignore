@@ -1,13 +1,7 @@
 /._.DS_Store
-/Login/
-/characterPackage/
-/dailyPackage/
+/character/
+/dailies/
+/login/
 /mainPackage/
-/statusPackage/
-/toDoPackage/
 /optimization/
 /todos/
-/lgoin/
-/login/
-/dailies/
-/character/
