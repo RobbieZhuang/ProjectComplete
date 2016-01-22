@@ -31,7 +31,7 @@ import character.Character;
 import login.LoginClass;
 import mainPackage.Program;
 import net.miginfocom.swing.MigLayout;
-import optimization.Status;
+import optimization.Schedule;
 
 public class DailyClass {
 
@@ -97,7 +97,6 @@ public class DailyClass {
 	public static void checkDailies(){
 		Date d = new Date();
 		if (d.getDate() != Character.user.getDate().getDate()){
-			
 			for (int i = 0; i < Daily.dayList.length; i++) {
 				if (Daily.dayList[i] != null){
 					if (!Daily.dayList[i].getComplete() && Daily.dayList[i].getRepeat()[LoginClass.dayOfWeek()]){
@@ -109,6 +108,7 @@ public class DailyClass {
 			}
 		}
 	}
+	
 	// Generates a random colour based off a white background so the colours are lighter
 	public static Color generateRandomColor() {
 		Random r = new Random();
@@ -125,6 +125,7 @@ public class DailyClass {
 		Color color = new Color(red, green, blue);
 		return color;
 	}
+	
 	// Load information into JPanels on dailyPanel
 	// Updates the dailyPanel
 	public static void updateDailyPanel() {
@@ -178,24 +179,21 @@ public class DailyClass {
 				GridBagConstraints gbc = new GridBagConstraints();
 				gbc.anchor = GridBagConstraints.NORTHWEST;
 				gbc.gridx = 1;
-				// gbc.gridy = GridBagConstraints.RELATIVE;
 				gbc.weighty = 1;
 				dayTaskP.add(taskP, gbc);
 			}
 		}
 		dayPaneltasks.add(dayTaskP, BorderLayout.CENTER);
 
-		if (Status.statsPanel != null){
-			Status.updateDailyStatsPanel();
+		if (Schedule.statsPanel != null){
+			Schedule.updateDailyStatsPanel();
 		}
 		
 		Program.window.repaint();
 	}
 
-	// User clicks newDailyB and this method is called
-	// createNewDaily creates the new daily pane that users can edit to create a
-	// daily
-	
+	// User clicks newDailyB and this method is called createNewDaily 
+	// creates the new daily pane that users can edit to create a daily
 	public static void createNewDailyPanel() {
 		dayPaneltasks.remove(dayTaskP);
 

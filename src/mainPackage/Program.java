@@ -21,7 +21,7 @@ import character.CharacterClass;
 import dailies.DailyClass;
 import login.FileClass;
 import login.LoginClass;
-import optimization.Status;
+import optimization.Schedule;
 import todos.TasksSPClass;
 
 /**
@@ -34,7 +34,7 @@ public class Program {
 	static JTextField titleText;
 	static List points = new ArrayList();
 	static JPanel tasksPanel;
-	static JTabbedPane tabbedPane;
+	public static JTabbedPane tabbedPane;
 	//static JPanel characterPanel;
 	static int tasks = 0;
 
@@ -50,7 +50,7 @@ public class Program {
 		window.setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
 		window.setLocationRelativeTo(null);
 		window.setResizable(false);
-		// http://stackoverflow.com/questions/9093448/do-something-when-the-close-button-is-clicked-on-a-jframe
+		
 		window.addWindowListener(new java.awt.event.WindowAdapter() {
 			@Override
 			public void windowClosing(java.awt.event.WindowEvent windowEvent) {
@@ -65,14 +65,8 @@ public class Program {
 		try {
 
 			for (LookAndFeelInfo info : UIManager.getInstalledLookAndFeels()) {
-				// OS Based LookAndFeel
-
+				// OS Based LookAndFeel (Preferred to be run on Windows 10)
 				UIManager.setLookAndFeel(UIManager.getSystemLookAndFeelClassName());
-
-				/*
-				 * //Nimbus LookAndFeel if ("Nimbus".equals(info.getName())) {
-				 * UIManager.setLookAndFeel(info.getClassName()); break; }
-				 */
 
 			}
 		} catch (Exception e) {
@@ -138,7 +132,7 @@ public class Program {
 	public static void createSchedulePane() throws IOException {
 		JPanel schedule = new JPanel(new BorderLayout());
 
-		schedule.add(Status.initiateStatsPanel(), BorderLayout.WEST);
+		schedule.add(Schedule.initiateSchedulePanel(), BorderLayout.WEST);
 
 		tabbedPane.addTab("Optimization", null, schedule, null);
 	}

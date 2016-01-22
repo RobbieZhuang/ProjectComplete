@@ -21,6 +21,6 @@ public class ExtendedDoneListener implements ActionListener {
 		}
 		TaskPopup.popF.dispose();
 		Character.taskComplete(ToDo.toDoList[index].getImportance());
-		Status.updateDailyStatsPanel();
+		Schedule.updateDailyStatsPanel();
 	}
 }

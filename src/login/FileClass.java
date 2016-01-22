@@ -114,9 +114,10 @@ public class FileClass {
 			}
 			String compS = fInput.nextLine();
 			boolean complete = false;
-			if (compS.equals("Y")) {
+			if (compS.equals("true")) {
 				complete = true;
 			}
+			System.out.println("Complete " + complete);
 			empty = fInput.nextLine();
 			Daily.dayList[index] = new Daily(title, description, cklstItems, cklstDone, difficulty, repeatA, complete);
 			for (int j = 0; j < repeatA.length; j++) {
