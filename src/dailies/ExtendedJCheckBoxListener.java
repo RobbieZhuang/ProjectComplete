@@ -20,6 +20,7 @@ public class ExtendedJCheckBoxListener implements ActionListener {
 		this.diff = diff;
 	}
 
+	// When checkbox is checked/deselected, it will be updated in the dailies
 	@Override
 	public void actionPerformed(ActionEvent e) {
 		AbstractButton abstractButton = (AbstractButton) e.getSource();
@@ -30,7 +31,7 @@ public class ExtendedJCheckBoxListener implements ActionListener {
 			Daily.dayList[index].setComplete(true);
 		} else if (!selected) {
 			Character.dailyUnComplete(diff);
-			Daily.dayList[index].setComplete(true);
+			Daily.dayList[index].setComplete(false);
 		}
 	}
 }

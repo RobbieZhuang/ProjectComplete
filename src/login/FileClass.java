@@ -104,7 +104,6 @@ public class FileClass {
 			String repeatS = fInput.nextLine();
 			boolean[] repeatA = new boolean[7];
 			for (int i = 0; i < repeatS.length(); i++) {
-				System.out.println(repeatS);
 				if (repeatS.charAt(i) == 'X') {
 					repeatA[i] = true;
 				}
@@ -117,18 +116,14 @@ public class FileClass {
 			if (compS.equals("true")) {
 				complete = true;
 			}
-			System.out.println("Complete " + complete);
 			empty = fInput.nextLine();
 			Daily.dayList[index] = new Daily(title, description, cklstItems, cklstDone, difficulty, repeatA, complete);
-			for (int j = 0; j < repeatA.length; j++) {
-				System.out.println(Daily.dayList[index].getRepeat()[j]);
-			}
 			index++;
 		}
 		fInput.close();
 	}
 	
-	// Imports the user's to dos from USERtodos.txt file
+	// Imports the user's todos from USERtodos.txt file
 	public static void importToDos(String user) throws FileNotFoundException {
 		Scanner fInput = new Scanner(new File("saves/" + user.toUpperCase() + "/" + user.toUpperCase() + "todos.txt"));
 		int index = 0;
@@ -162,7 +157,8 @@ public class FileClass {
 			}
 			fInput.close();
 			return false;
-		} catch (FileNotFoundException e) {}
+		} catch (FileNotFoundException e) {
+		}
 		return false;
 	}
 	

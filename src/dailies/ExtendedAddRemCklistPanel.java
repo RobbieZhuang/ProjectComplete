@@ -14,14 +14,13 @@ import javax.swing.JPanel;
 
 import mainPackage.Program;
 
+// Adds and removes the checklist panel (A beta feature not included in the running program)
 public class ExtendedAddRemCklistPanel implements ActionListener{
 	static JPanel mainP;
 	static int index;
 	public ExtendedAddRemCklistPanel(int ind) {
-		// TODO Auto-generated constructor stub
 		index = ind;
 		mainP = new JPanel(new BorderLayout());
-		System.out.println("Element " + index);
 		JPanel checklistP = new JPanel(new GridLayout(Daily.dayList[index].getChecklistDone().length, 1));
 		for (int i = 0; i < Daily.dayList[index].getChecklistDone().length; i++) {
 			JCheckBox cb = new JCheckBox(Daily.dayList[index].getChecklist()[i]);
@@ -42,7 +41,6 @@ public class ExtendedAddRemCklistPanel implements ActionListener{
 			abstractButton.setActionCommand("large");
 			abstractButton.setText("-");
 			abstractButton.getParent().setPreferredSize(new Dimension(325, 100 + 10*Daily.dayList[index].getChecklistDone().length));
-			//Program.window.repaint();
 			abstractButton.getParent().add(mainP, BorderLayout.SOUTH);
 		}
 		else if ("large".equals(e.getActionCommand())){

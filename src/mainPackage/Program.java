@@ -25,8 +25,10 @@ import optimization.Schedule;
 import todos.TasksSPClass;
 
 /**
- * @author Robbie
- *
+ * Project Complete
+ * A productivity app for gamers.
+ * Robbie Zhuang
+ * January 21, 2016
  */
 public class Program {
 	public static JFrame window;
@@ -35,7 +37,6 @@ public class Program {
 	static List points = new ArrayList();
 	static JPanel tasksPanel;
 	public static JTabbedPane tabbedPane;
-	//static JPanel characterPanel;
 	static int tasks = 0;
 
 	public static void main(String[] args) throws Exception {
@@ -43,8 +44,8 @@ public class Program {
 		LoginClass.welcomeWindow();
 	}
 
+	// Starts the program after user logs in
 	public static void start() throws Exception {
-
 		window = new JFrame("Project: Complete");
 		window.setSize(1080, 800);
 		window.setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);

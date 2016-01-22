@@ -24,9 +24,7 @@ import mainPackage.Program;
 public class LoginClass {
 	static JFrame window;
 	static JFrame newU;
-	/**
-	 * @wbp.parser.entryPoint
-	 */
+	
 	// Welcome window
 	public static void welcomeWindow() {
 		// Borders removed, transparency set, background colour set
@@ -97,7 +95,7 @@ public class LoginClass {
 		loginB.setBackground(Color.LIGHT_GRAY);
 		loginB.setFont(new Font("Century", Font.PLAIN, 16));
 		loginB.setPreferredSize(new Dimension(5, 25));
-		// Add action listener to log in
+		// Add action listener to login button
 		loginB.addActionListener(new ActionListener() {
 			public void actionPerformed(ActionEvent e) {
 				String user = userTF.getText();

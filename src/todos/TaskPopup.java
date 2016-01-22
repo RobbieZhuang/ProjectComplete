@@ -12,12 +12,14 @@ import javax.swing.JFrame;
 import javax.swing.JLabel;
 import javax.swing.JPanel;
 
-// Creating a new popup window with the title and description of the Checklist To Do as well as buttons to finish and to close
+// Creating a new popup window with the title and description of the 
+// checklist todo as well as buttons to complete and to close the popup
 public class TaskPopup {
 	static JFrame popF;
 	static JButton doneB;
 	static JButton closeB;
 
+	// Creating the frame of the popup window and adding data
 	public static void createPopup(int index, String title, String description, Point p) {
 		popF = new JFrame();
 		popF.setUndecorated(true);

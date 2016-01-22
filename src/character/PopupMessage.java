@@ -1,4 +1,4 @@
-package mainPackage;
+package character;
 
 import java.awt.AlphaComposite;
 import java.awt.BorderLayout;
@@ -23,9 +23,13 @@ import javax.swing.UIManager;
 import javax.swing.UnsupportedLookAndFeelException;
 import javax.swing.border.EmptyBorder;
 
-// This class sets up a new JFrame containing a message which fades in and out using a class that builds the popus and draws the 
-// transitional background
-//http://stackoverflow.com/questions/23841518/how-to-pop-up-a-text-boxor-tooltip-via-script-in-java
+import mainPackage.Program;
+
+// This class sets up a new JFrame containing a message which fades in and out using a class that 
+// builds the popus and draws the transitional background (It also fades in and out)
+// I edited the parameters to determine whether a frame will always be on top
+// Learned from Shadow http://stackoverflow.com/questions/23841518/how-to-pop-up-a-text-boxor-tooltip-via-script-in-java
+// I created my own version of this in the todo package
 public class PopupMessage {
 	private static Color col;
 	public static boolean onT;

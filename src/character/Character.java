@@ -9,7 +9,6 @@ import java.util.Random;
 import javax.swing.ImageIcon;
 
 import login.LoginClass;
-import mainPackage.PopupMessage;
 
 public class Character {
 	private String name;
@@ -21,6 +20,7 @@ public class Character {
 	public static Character user;
 	private Date lastLogin;
 
+	// Constructors
 	public Character(String name, int level, double health, double EXP, BufferedImage pic, Date day) {
 		this.name = name;
 		this.level = level;
@@ -49,6 +49,7 @@ public class Character {
 		this.lastLogin = new Date();
 	}
 
+	// Getters and Setters
 	public void setName(String name) {
 		this.name = name;
 	}
@@ -104,6 +105,7 @@ public class Character {
 		lastLogin = new Date();
 	}
 	
+	// When daily is complete, Character gains EXP
 	public static void dailyComplete(int difficulty) {
 		double n = 10 * difficulty * Math.random();
 		user.EXP += n;
@@ -112,6 +114,7 @@ public class Character {
 		CharacterClass.updateStatsPanel();
 	}
 
+	// When daily is unchecked, EXP is deducted from the character (can go into negatives on purpose)
 	public static void dailyUnComplete(int difficulty) {
 		double n = 10 * difficulty * Math.random();
 		user.EXP -= n;
@@ -119,10 +122,11 @@ public class Character {
 		CharacterClass.updateStatsPanel();
 	}
 
+	// If character does not finish daily, then health is deducted
+	// There is a check for losing a level
 	public static void dailyIncomplete(int difficulty) {
 		double n = (difficulty)*0.5;
 		user.health -= n;
-		System.out.println(user.getHealth());
 		if (user.getHealth() <= 0){
 			loseLevel();
 		}
@@ -132,6 +136,7 @@ public class Character {
 		CharacterClass.updateStatsPanel();
 	}
 
+	// When task is complete, character is rewarded EXP and there is a check to see if character leveled up
 	public static void taskComplete(int difficulty) {
 		double n = 10 * difficulty * Math.random();
 		user.EXP += n;
@@ -139,6 +144,9 @@ public class Character {
 		gainLevel();
 		CharacterClass.updateStatsPanel();
 	}
+	
+	// When user gains a level, EXP set to 0 or however much over the amount to complete level
+	// health set to 100 and popup messages appear
 	public static void gainLevel(){
 		double EXP = user.getEXP();
 		if (EXP >= user.getEXPCap()){
@@ -150,6 +158,9 @@ public class Character {
 		}
 		CharacterClass.updateImportantStats();
 	}
+	
+	// When user loses a level, EXP set to 0, health set to 100 and popup messages appear
+	// Update the character JPanels
 	public static void loseLevel(){
 		if (user.level == 1){
 			user.setEXP(0.0);
@@ -165,18 +176,18 @@ public class Character {
 		CharacterClass.updateStatsPanel();
 		CharacterClass.updateImportantStats();
 	}
-	// http://stackoverflow.com/questions/43044/algorithm-to-randomly-generate-an-aesthetically-pleasing-color-palette
+	
+	// Generates a random colour
 	public static Color generateRandomColor() {
-		Random random = new Random();
-		int red = random.nextInt(256);
-		int green = random.nextInt(256);
-		int blue = random.nextInt(256);
-		Color mix = new Color(255, 255, 255);
-		// mix the color
-		if (mix != null) {
-			red = (red + mix.getRed()) / 2;
-			green = (green + mix.getGreen()) / 2;
-			blue = (blue + mix.getBlue()) / 2;
+		Random r = new Random();
+		int red = r.nextInt(256);
+		int green = r.nextInt(256);
+		int blue = r.nextInt(256);
+		Color background = new Color(255, 255, 255);
+		if (background != null) {
+			red = (red + background.getRed()) / 2;
+			green = (green + background.getGreen()) / 2;
+			blue = (blue + background.getBlue()) / 2;
 		}
 
 		Color color = new Color(red, green, blue);

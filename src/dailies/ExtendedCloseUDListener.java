@@ -10,6 +10,7 @@ public class ExtendedCloseUDListener implements ActionListener {
 		this.buttonID = buttonID;
 	}
 
+	// Closes the daily edit window
 	public void actionPerformed(ActionEvent e) {
 		DailyClass.newDailyB.setEnabled(false);
 		DailyClass.updateDaily(buttonID);

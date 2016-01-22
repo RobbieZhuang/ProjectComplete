@@ -1,9 +1,6 @@
 package todos;
-/*
- * Source code from Shadow
- * http://stackoverflow.com/questions/27017772/how-to-change-point-size-or-shape-in-fastscatterplot-jfreechart
- */
 
+//Learned from Shadow @ http://stackoverflow.com/questions/27017772/how-to-change-point-size-or-shape-in-fastscatterplot-jfreechart
 import java.awt.Graphics2D;
 import java.awt.Paint;
 import java.awt.geom.Rectangle2D;
@@ -14,12 +11,14 @@ import org.jfree.chart.plot.FastScatterPlot;
 import org.jfree.chart.plot.PlotRenderingInfo;
 import org.jfree.ui.RectangleEdge;
 
+//Extension of FastScatterPlot
 public class ExtendedFastScatterPlot extends FastScatterPlot {
 	private static final long serialVersionUID = 1L;
 	int[] sizes;
 	Paint[] colors;
 	float[][] data;
 
+	// Gets the data, axis, size and colours
 	public ExtendedFastScatterPlot(float[][] data, NumberAxis domainAxis, NumberAxis rangeAxis, int[] s, Paint[] c) {
 		super(data, domainAxis, rangeAxis);
 		this.sizes = s;
@@ -27,6 +26,8 @@ public class ExtendedFastScatterPlot extends FastScatterPlot {
 		this.data = data;
 	}
 
+	// Overrides the render class to add the data, axis and particularly 
+	// changes the colour and shape of the points that are plotted
 	@Override
 	public void render(Graphics2D g2, Rectangle2D dataArea, PlotRenderingInfo info, CrosshairState crosshairState) {
 

@@ -22,11 +22,10 @@ import todos.ToDo;
 public class Schedule {
 	public static JPanel statsPanel;
 	public static JPanel dailyStatsP;
-	public static JScrollPane jSP;
+	public static JScrollPane jSPdaily;
+	public static JScrollPane jSPtodo;
 	public static JPanel p1;
-	/**
-	 * @wbp.parser.entryPoint
-	 */
+	
 	// Initiate the schedule panel
 	public static JPanel initiateSchedulePanel() {
 		statsPanel = new JPanel(new BorderLayout());
@@ -36,7 +35,6 @@ public class Schedule {
 
 		statsPanel.setPreferredSize(new Dimension(1065, 600));
 		return statsPanel;
-		
 	}
 
 	// Updates the Daily schedule list panel
@@ -55,10 +53,9 @@ public class Schedule {
 		GridBagLayout gbl = new GridBagLayout();
 		dailyStatsP.setLayout(gbl);
 		String[] optDailies = optimizedDailies();
-		System.out.println("Length " + optDailies.length);
 		for (int i = 0; i < optDailies.length; i++) {
 			JLabel dailyLabel = new JLabel((i + 1) + ") " + optDailies[i]);
-			dailyLabel.setPreferredSize(new Dimension(450, 40));
+			dailyLabel.setPreferredSize(new Dimension(510, 40));
 			dailyLabel.setFont(new Font("Century", Font.PLAIN, 18));
 			dailyLabel.setOpaque(true);
 			dailyLabel.setBackground(DailyClass.generateRandomColor());
@@ -68,19 +65,19 @@ public class Schedule {
 			gbc.weighty = 1;
 			dailyStatsP.add(dailyLabel, gbc);
 		}
-		jSP = new JScrollPane(dailyStatsP);
-		jSP.setPreferredSize(new Dimension(475, 450));
-		p1.add(jSP, BorderLayout.CENTER);
+		jSPdaily = new JScrollPane(dailyStatsP);
+		jSPdaily.setPreferredSize(new Dimension(525, 450));
+		p1.add(jSPdaily, BorderLayout.CENTER);
 		statsPanel.add(p1, BorderLayout.WEST);
 
-		jSP.repaint();
+		jSPdaily.repaint();
 		p1.repaint();
 		statsPanel.repaint();
 		Program.window.revalidate();
 		Program.window.repaint();
 	}
 
-	// Update the Todo schedule
+	// Update the todo schedule
 	public static void updateTodoStatsPanel() {
 		JPanel toDoStatsP = new JPanel(new GridBagLayout());
 		JPanel p2 = new JPanel(new BorderLayout());
@@ -98,15 +95,22 @@ public class Schedule {
 			gbc1.gridx = 1;
 			gbc1.weighty = 1;
 			JLabel todoLabel = new JLabel((i+1) + ") " + optArray[i]);
-			todoLabel.setPreferredSize(new Dimension(450, 30));
+			todoLabel.setPreferredSize(new Dimension(510, 40));
 			todoLabel.setFont(new Font("Century", Font.PLAIN, 18));
 			todoLabel.setOpaque(true);
 			todoLabel.setBackground(DailyClass.generateRandomColor());
 			toDoStatsP.add(todoLabel, gbc1);
 		}
-		p2.add(toDoStatsP, BorderLayout.CENTER);
+		jSPtodo = new JScrollPane(toDoStatsP);
+		jSPtodo.setPreferredSize(new Dimension(525, 450));
+		p2.add(jSPtodo, BorderLayout.CENTER);
+		
 		statsPanel.add(p2, BorderLayout.EAST);
+		
+		jSPtodo.repaint();
+		p2.repaint();
 		statsPanel.repaint();
+		Program.window.revalidate();
 		Program.window.repaint();
 	}
 
@@ -144,13 +148,12 @@ public class Schedule {
 		}
 		for (int i = 0; i < oDailies.length; i++) {
 			items[i] = oDailies[i].getTitle();
-			System.out.println(oDailies[i].getTitle() + " " + oDailies[i].getDifficulty());
 		}
 		return items;
 	}
 	
-	// Optimizing the todos through with an array of coordinates indicating grids on the scatterplot
-	// Task that has the highest priority will be in the first box
+	// Optimizing the todos with an array of coordinates indicating grids on the scatter plot
+	// Tasks that are the highest priority would be found in the first grid, second in the second grid, ect.
 	public static String[] optimizedTodos(){
 		ArrayList <ToDo> items = new ArrayList<ToDo>();
 		for (int i = 0; i < ToDo.toDoList.length; i++) {
@@ -159,13 +162,16 @@ public class Schedule {
 			}
 		}
 		ArrayList <String> finalList = new ArrayList<String>();
-		int [][] findArray = 	{{0, 1, 10, 7}, {0, 1, 7, 3}, {0, 1, 3, 1}, 
-								 {1, 4, 10, 7}, {1, 3, 7, 3}, {1, 2, 3, 1},
-								 {4, 8, 10, 7}, {3, 6, 7, 3}, {2, 4, 3, 1},
-								 				{6, 8, 7, 3}, {4, 8, 1, 3},
+		// Calculated grid
+		// Pretty much anything that has a due date of NOW is added first
+		// Then todos are added by importance and due date
+		int [][] findArray = 	{{0, 1, 10, 7}, {0, 1, 7, 3}, {0, 1, 3, 0}, 
+								 {1, 4, 10, 7}, {1, 3, 7, 3}, {1, 2, 3, 0},
+								 {4, 8, 10, 7}, {3, 6, 7, 3}, {2, 4, 3, 0},
+								 				{6, 8, 7, 3}, {4, 8, 3, 0},
 				 				 {8,15, 10, 7}, {8,12, 7, 3},
 				 				 {15,59,10, 7}, {12,59,7, 3},
-				 				 {8, 59, 3, 1}
+				 				 {8, 59, 3, 0}
 								};
 		
 		for (int i = 0; i < findArray.length; i++){

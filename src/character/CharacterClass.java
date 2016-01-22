@@ -25,6 +25,7 @@ public class CharacterClass {
 	 * @throws IOException
 	 * @wbp.parser.entryPoint
 	 */
+	// Initializes the panel and sends it the main program to add to JFrame
 	public static JPanel initiatePanel() {
 
 		characterPanel = new JPanel();
@@ -46,7 +47,7 @@ public class CharacterClass {
 		
 		return characterPanel;
 	}
-	
+	// Updates the level and username panel
 	public static void updateImportantStats(){
 		if (topP != null && topP.getParent().equals(characterPanel)){
 			characterPanel.remove(topP);
@@ -59,15 +60,14 @@ public class CharacterClass {
 
 		JLabel userLevelL = new JLabel();
 		String level = "Level : " + String.valueOf(Character.user.getLevel());  
-		System.out.println(String.valueOf(Character.user.getLevel())); // For some reason level label is not updating...
 		userLevelL.setText(level);
-		System.out.println(userLevelL.getText());
 		userLevelL.setFont(new Font("Century", Font.PLAIN, 14));
 		topP.add(userLevelL, BorderLayout.CENTER);
 		
 		characterPanel.add(topP, BorderLayout.NORTH);
 		
 	}
+	// Updates the JProgressbars containing health and EXP
 	public static void updateStatsPanel() {
 
 		if (statsP != null && statsP.getParent() == characterPanel) {

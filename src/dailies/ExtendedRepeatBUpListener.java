@@ -12,7 +12,10 @@ public class ExtendedRepeatBUpListener implements ActionListener {
 		this.buttonID = buttonID;
 		this.index = index;
 	}
-
+	// When the ActionCommand is repeat, this will change the repeat variable to false 
+	// (button will turn red, indicating that a daily will not be repeated on that day)
+	// If user presses button again, then it will turn green (indicating that the daily
+	// will be repeated on that day
 	public void actionPerformed(ActionEvent e) {
 		boolean[] repeat = DailyClass.repeat;
 		if ("repeat".equals(e.getActionCommand())) {

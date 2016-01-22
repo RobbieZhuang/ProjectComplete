@@ -40,7 +40,7 @@ import optimization.Schedule;
 
 public class TasksSPClass {
 
-	// Various swing components declaration
+	// Various swing components declared
 	static JPanel cklstP;
 	static JButton newToDoB;
 	static JButton doneToDoB;
