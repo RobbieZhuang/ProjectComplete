@@ -27,7 +27,9 @@ public class LoginClass {
 	/**
 	 * @wbp.parser.entryPoint
 	 */
+	// Welcome window
 	public static void welcomeWindow() {
+		// Borders removed, transparency set, background colour set
 		window = new JFrame("Project:Complete");
 		window.setUndecorated(true);
 		window.setOpacity(0.92f);
@@ -59,6 +61,11 @@ public class LoginClass {
 		userTF.setFont(new Font("Century", Font.PLAIN, 16));
 		topPanel.add(userTF);
 		JButton newUserB = new JButton("New User");
+		newUserB.setForeground(Color.BLACK);
+		newUserB.setBackground(Color.LIGHT_GRAY);
+		newUserB.setFont(new Font("Century", Font.PLAIN, 16));
+		newUserB.setPreferredSize(new Dimension(125, 25));
+		// Add action listener for creating a new user
 		newUserB.addActionListener(new ActionListener() {
 			public void actionPerformed(ActionEvent e) {
 				userTF.repaint();
@@ -76,20 +83,12 @@ public class LoginClass {
 					try {
 						Program.start();
 					} catch (Exception e1) {
-						// TODO Auto-generated catch block
 						e1.printStackTrace();
 					}
 				}
 			}
 		});
-		JButton tutorialButton = new JButton("Tutorial");
-		tutorialButton.addActionListener(new ActionListener() {
-			public void actionPerformed(ActionEvent e) {
-				tutorial();
-			}
-		});
 		topPanel.add(newUserB);
-		topPanel.add(tutorialButton);
 		
 		JPanel loginButtonP = new JPanel(new BorderLayout());
 		loginButtonP.setBackground(Color.DARK_GRAY);
@@ -98,17 +97,16 @@ public class LoginClass {
 		loginB.setBackground(Color.LIGHT_GRAY);
 		loginB.setFont(new Font("Century", Font.PLAIN, 16));
 		loginB.setPreferredSize(new Dimension(5, 25));
+		// Add action listener to log in
 		loginB.addActionListener(new ActionListener() {
 			public void actionPerformed(ActionEvent e) {
 				String user = userTF.getText();
-				//System.out.println(user);
 				if (FileClass.findUser(user)){
 					FileClass.importAll(user);
 					window.dispose();
 					try {
 						Program.start();
 					} catch (Exception e1) {
-						// TODO Auto-generated catch block
 						e1.printStackTrace();
 					}
 				}
@@ -122,7 +120,6 @@ public class LoginClass {
 		loginButtonP.add(new JLabel("                                                       "), BorderLayout.EAST);
 		loginButtonP.add(loginB, BorderLayout.CENTER);
 
-		// http://i.kinja-img.com/gawker-media/image/upload/nst72a4sho2f2bawqvmq.gif
 		Icon icon = new ImageIcon("res/Default.gif");
 		JLabel label = new JLabel(icon);
 		label.setBackground(Color.DARK_GRAY);
@@ -134,17 +131,12 @@ public class LoginClass {
 		window.getContentPane().add(overlordP, BorderLayout.CENTER);
 		window.setVisible(true);
 	}
-	// MAYBE ADD THIS
-	public static void tutorial(){
-		
-	}
 	
 	public static int dayOfWeek() {
-		// get the day of the week in numerical format
+		// Get the day of the week in numerical format
 		Date now = new Date();
 		Calendar c = Calendar.getInstance();
         c.setTime(now);
-		System.out.println("The day of the week is " + c.get(Calendar.DAY_OF_WEEK)); 
 		int day = c.get(Calendar.DAY_OF_WEEK);
 		System.out.println(day);
 		if (day == 1){ day = 6; }

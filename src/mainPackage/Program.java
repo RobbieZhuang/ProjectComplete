@@ -3,7 +3,6 @@ package mainPackage;
 import java.awt.BorderLayout;
 import java.awt.Color;
 import java.awt.Font;
-import java.awt.GridLayout;
 import java.io.FileNotFoundException;
 import java.io.IOException;
 import java.util.ArrayList;
@@ -11,7 +10,6 @@ import java.util.List;
 
 import javax.swing.JFrame;
 import javax.swing.JLabel;
-import javax.swing.JOptionPane;
 import javax.swing.JPanel;
 import javax.swing.JTabbedPane;
 import javax.swing.JTextField;
@@ -25,9 +23,6 @@ import login.FileClass;
 import login.LoginClass;
 import optimization.Status;
 import todos.TasksSPClass;
-
-import java.awt.Component;
-import javax.swing.Box;
 
 /**
  * @author Robbie
@@ -44,6 +39,7 @@ public class Program {
 	static int tasks = 0;
 
 	public static void main(String[] args) throws Exception {
+		// It all begins with the Login window
 		LoginClass.welcomeWindow();
 	}
 
@@ -110,6 +106,7 @@ public class Program {
 		// dailies and list of to-dos
 		createSchedulePane();
 
+		// IDEA FOR FUTURE DEVELOPMENT
 		// Adds the third pane called Stats which contains graphs and charts on
 		// the user's dailies and to-dos
 		// createStatsPane();
@@ -117,6 +114,7 @@ public class Program {
 		
 		// Check if all dailies are done from previous day and resets dailies
 		DailyClass.checkDailies();
+		
 		// Sets the main JFrame to visible
 		window.setVisible(true);
 	}

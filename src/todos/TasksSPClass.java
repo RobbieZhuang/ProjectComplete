@@ -15,6 +15,7 @@ import java.awt.event.MouseEvent;
 import java.awt.event.MouseListener;
 import java.awt.event.MouseMotionListener;
 import java.io.IOException;
+import java.util.Date;
 
 import javax.swing.JButton;
 import javax.swing.JLabel;
@@ -24,15 +25,15 @@ import javax.swing.JSlider;
 import javax.swing.JSpinner;
 import javax.swing.JTextArea;
 import javax.swing.JTextField;
+import javax.swing.SpinnerNumberModel;
 import javax.swing.SwingConstants;
 import javax.swing.border.LineBorder;
-import javax.swing.event.ChangeEvent;
-import javax.swing.event.ChangeListener;
 
 import org.jfree.chart.ChartPanel;
 import org.jfree.chart.JFreeChart;
 import org.jfree.chart.axis.NumberAxis;
 
+import character.Character;
 import mainPackage.Program;
 import net.miginfocom.swing.MigLayout;
 
@@ -60,6 +61,9 @@ public class TasksSPClass {
 	static int[] shapes = new int[1000];
 	
 	public static JPanel initiateScatterPlot() throws IOException {
+		// Updates due dates on todos
+		TasksSPClass.updateDueDates();
+		// Initiate cklstP panel and add scatter plot
 		cklstP = new JPanel(new BorderLayout());
 		cklstP.setBorder(new LineBorder(Color.DARK_GRAY, 2, true));
 
@@ -82,6 +86,28 @@ public class TasksSPClass {
 		return cklstP;
 	}
 
+	// Check the date difference between this open and last open and subtract
+	// from the due date. If difference makes the due date < 0, the due date becomes 0
+	@SuppressWarnings("deprecation")
+	public static void updateDueDates(){
+		Date d = new Date();
+		Date prevD = Character.user.getDate();
+		int gap = d.getDate()-prevD.getDate();
+		if (prevD.getDate() != d.getDate()){
+			for (int i = 0; i < ToDo.toDoList.length; i++) {
+				if (ToDo.toDoList[i] != null){
+					int due = ToDo.toDoList[i].getDueDate();
+					if (due-gap <= 0){
+						ToDo.toDoList[i].setDueDate(0);
+					}
+					else{
+						ToDo.toDoList[i].setDueDate(due-gap);
+					}
+				}
+			}
+		}
+	}
+	
 	// Add the scatterplot to the checklist panel
 	public static void addScatterPlot() throws IOException {
 		if (cp != null && cp.getParent() == cklstP) {
@@ -140,7 +166,8 @@ public class TasksSPClass {
 		JPanel dueP = new JPanel(new BorderLayout());
 		JLabel dueL = new JLabel("Select the amount of days until due.");
 		dueS = new JSpinner();
-		dueS.setValue(3);
+		SpinnerNumberModel model = new SpinnerNumberModel(5.0, 0.0, 59.0, 1.0);  
+		dueS.setModel(model);
 		dueP.add(dueL, BorderLayout.NORTH);
 		dueP.add(dueS, BorderLayout.CENTER);
 
@@ -165,7 +192,7 @@ public class TasksSPClass {
 		String title = newTitleT.getText();
 		String descrip = newDescripA.getText();
 		int i = impS.getValue();
-		int dD = (int) dueS.getValue();
+		int dD = Integer.parseInt(dueS.getValue().toString().substring(0, dueS.getValue().toString().length()-2));
 		int index = ToDo.lowestIndex();
 		ToDo.toDoList[index] = new ToDo(title, descrip, i, dD);
 		ToDo.addColor(index);

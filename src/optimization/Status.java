@@ -8,12 +8,14 @@ import java.awt.Font;
 import java.awt.GridBagConstraints;
 import java.awt.GridBagLayout;
 import java.io.IOException;
+import java.util.Date;
 
 import javax.swing.JLabel;
 import javax.swing.JPanel;
 import javax.swing.JScrollPane;
 import javax.swing.border.LineBorder;
 
+import character.Character;
 import dailies.Daily;
 import mainPackage.Program;
 import todos.ToDo;
@@ -93,7 +95,7 @@ public class Status {
 				jl.setPreferredSize(new Dimension(450, 30));
 				jl.setFont(new Font("Century", Font.PLAIN, 18));
 				jl.setOpaque(true);
-				jl.setBorder(new LineBorder(new Color((float) Math.random(), (float) Math.random(), 0 /* (float)Math.random())); */), 3));
+				jl.setBorder(new LineBorder(new Color((float) Math.random(), (float) Math.random(), 0), 3));
 
 				toDoStatsP.add(jl, gbc1);
 				index++;

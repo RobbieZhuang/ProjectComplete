@@ -1,50 +1,25 @@
 Eat a cookie
 !@#$%^&*()
 1
-0
+50
 false
 University Applications
 This is very important!!!
 10
-5
-true
+17
+false
 Uni Apps
 !@#$%^&*()
 9
-5
-true
+11
+false
 Exams!
 !@#$%^&*()
 8
-7
-true
+0
+false
 Clean Bedroom
 Why do you make me do this, mom?
 3
-30
+2
 false
-!@#$%^&*()
-!@#$%^&*()
-5
-3
-true
-!@#$%^&*()
-!@#$%^&*()
-5
-3
-true
-!@#$%^&*()
-!@#$%^&*()
-5
-3
-true
-Fun work
-!@#$%^&*()
-5
-3
-true
-!@#$%^&*()
-!@#$%^&*()
-5
-3
-true
