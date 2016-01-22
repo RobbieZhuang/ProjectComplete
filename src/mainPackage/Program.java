@@ -18,13 +18,13 @@ import javax.swing.JTextField;
 import javax.swing.UIManager;
 import javax.swing.UIManager.LookAndFeelInfo;
 
-import Login.FileClass;
-import Login.LoginClass;
-import characterPackage.CharacterClass;
-import characterPackage.Character;
-import dailyPackage.DailyClass;
-import statusPackage.Status;
-import toDoPackage.TasksSPClass;
+import character.Character;
+import character.CharacterClass;
+import dailies.DailyClass;
+import login.FileClass;
+import login.LoginClass;
+import optimization.Status;
+import todos.TasksSPClass;
 
 import java.awt.Component;
 import javax.swing.Box;
@@ -147,26 +147,6 @@ public class Program {
 
 	// Adds the third pane called Stats which contains graphs and charts on the
 	// user's dailies and to-dos
-	/*
-	public static void createStatsPane() throws IOException {
-		JPanel backP = new JPanel(new BorderLayout());
-		JPanel stats = new JPanel();
-		stats.setLayout(new GridLayout(2, 2));
-
-		JPanel dayStats = new JPanel();
-		stats.add(dayStats);
-
-		JPanel cklstStats = new JPanel();
-		stats.add(cklstStats);
-
-		JPanel genStats = new JPanel();
-		stats.add(genStats);
-
-		// backP.add(CharacterClass.characterPanel, BorderLayout.NORTH);
-		backP.add(stats, BorderLayout.SOUTH);
-
-		tabbedPane.addTab("Stats", null, backP, null);
-	}
-	*/
+	
 
 }

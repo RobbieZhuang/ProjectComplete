@@ -1,4 +1,4 @@
-package dailyPackage;
+package dailies;
 
 import java.awt.event.ActionEvent;
 import java.awt.event.ActionListener;

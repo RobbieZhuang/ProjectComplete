@@ -1,11 +1,11 @@
-package toDoPackage;
+package todos;
 
 import java.awt.event.ActionEvent;
 import java.awt.event.ActionListener;
 import java.io.IOException;
 
-import characterPackage.Character;
-import statusPackage.*;
+import character.Character;
+import optimization.*;
 public class ExtendedDoneListener implements ActionListener {
 	public int index;
 

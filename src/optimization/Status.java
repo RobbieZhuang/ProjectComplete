@@ -1,4 +1,4 @@
-package statusPackage;
+package optimization;
 
 import java.awt.BorderLayout;
 import java.awt.Color;
@@ -14,9 +14,9 @@ import javax.swing.JPanel;
 import javax.swing.JScrollPane;
 import javax.swing.border.LineBorder;
 
-import dailyPackage.Daily;
+import dailies.Daily;
 import mainPackage.Program;
-import toDoPackage.ToDo;
+import todos.ToDo;
 import javax.swing.SwingConstants;
 
 public class Status {

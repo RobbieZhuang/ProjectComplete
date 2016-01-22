@@ -1,4 +1,4 @@
-package Login;
+package login;
 
 import java.awt.Color;
 import java.awt.image.BufferedImage;
@@ -17,9 +17,9 @@ import java.util.StringTokenizer;
 
 import javax.imageio.ImageIO;
 
-import characterPackage.Character;
-import dailyPackage.Daily;
-import toDoPackage.ToDo;
+import character.Character;
+import dailies.Daily;
+import todos.ToDo;
 
 public class FileClass {
 	

@@ -1,4 +1,4 @@
-package dailyPackage;
+package dailies;
 
 import java.util.ArrayList;
 
@@ -13,6 +13,7 @@ public class Daily {
 
 	public static Daily[] dayList = new Daily[1000]; // Stores Dailies that need to be completed
 
+	// Constructors
 	public Daily(String t, String m, String[] cklst, boolean [] cklstD, int d, boolean[] r, boolean comp) {
 
 		title = t;
@@ -24,9 +25,11 @@ public class Daily {
 		complete = comp;
 	}
 
-	public Daily() {
+	// This constructor is required for empty dailies
+	public Daily(){
+		
 	}
-
+	
 	// Getters and Setters
 	public String getTitle() {
 		return this.title;
@@ -51,6 +54,7 @@ public class Daily {
 	public void setChecklist(String[] c) {
 		this.checklist = c;
 	}
+	
 	public boolean[] getChecklistDone() {
 		return this.checklistDone;
 	}

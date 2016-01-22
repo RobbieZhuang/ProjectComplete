@@ -1,4 +1,4 @@
-package characterPackage;
+package character;
 
 import java.awt.Color;
 import java.awt.image.BufferedImage;
@@ -8,7 +8,7 @@ import java.util.Random;
 
 import javax.swing.ImageIcon;
 
-import Login.LoginClass;
+import login.LoginClass;
 import mainPackage.PopupMessage;
 
 public class Character {

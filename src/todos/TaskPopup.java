@@ -1,4 +1,4 @@
-package toDoPackage;
+package todos;
 
 import java.awt.BorderLayout;
 import java.awt.Color;
@@ -12,11 +12,10 @@ import javax.swing.JFrame;
 import javax.swing.JLabel;
 import javax.swing.JPanel;
 
-//http://stackoverflow.com/questions/23841518/how-to-pop-up-a-text-boxor-tooltip-via-script-in-java
+// Creating a new popup window with the title and description of the Checklist To Do as well as buttons to finish and to close
 public class TaskPopup {
 	static JFrame popF;
 	static JButton doneB;
-	// static JButton editB;
 	static JButton closeB;
 
 	public static void createPopup(int index, String title, String description, Point p) {
@@ -30,17 +29,13 @@ public class TaskPopup {
 		JPanel buttonP = new JPanel(new FlowLayout());
 		doneB = new JButton("Done");
 		doneB.addActionListener(new ExtendedDoneListener(index));
-		// editB = new JButton("Edit");
-		// editB.addActionListener(new ExtendedEditListener(int index));
 		closeB = new JButton("Close");
 		closeB.addActionListener(new ActionListener() {
 			public void actionPerformed(ActionEvent e) {
 				popF.dispose();
 			}
-
 		});
 		buttonP.add(doneB);
-		// buttonP.add(editB);
 		buttonP.add(closeB);
 		panP.add(titleL, BorderLayout.NORTH);
 		panP.add(descripL, BorderLayout.CENTER);

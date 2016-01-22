@@ -1,4 +1,4 @@
-package dailyPackage;
+package dailies;
 
 import java.awt.Color;
 import java.awt.event.ActionEvent;
@@ -18,12 +18,12 @@ public class ExtendedRepeatBNewListener implements ActionListener {
 			repeat[buttonID] = false;
 			DailyClass.repeat = repeat;
 			DailyClass.repeatButtons[buttonID].setActionCommand("no repeat");
-			DailyClass.repeatButtons[buttonID].setForeground(Color.BLACK);
+			DailyClass.repeatButtons[buttonID].setForeground(Color.RED);
 		} else if ("no repeat".equals(e.getActionCommand())) {
 			repeat[buttonID] = true;
 			DailyClass.repeat = repeat;
 			DailyClass.repeatButtons[buttonID].setActionCommand("repeat");
-			DailyClass.repeatButtons[buttonID].setForeground(Color.CYAN);
+			DailyClass.repeatButtons[buttonID].setForeground(Color.GREEN);
 		}
 		for (int i = 0; i < repeat.length; i++) {
 			System.out.print(repeat[i]);

@@ -1,4 +1,4 @@
-package dailyPackage;
+package dailies;
 
 import java.awt.BorderLayout;
 import java.awt.Color;
@@ -27,16 +27,17 @@ import javax.swing.JTextField;
 import javax.swing.SwingConstants;
 import javax.swing.border.LineBorder;
 
-import Login.LoginClass;
-import characterPackage.Character;
+import character.Character;
+import login.LoginClass;
 import mainPackage.Program;
 import net.miginfocom.swing.MigLayout;
-import statusPackage.Status;
+import optimization.Status;
 
 public class DailyClass {
 
 	static JScrollPane jSP; // JScrollPane
 	static JPanel dayPanel; // Main Panel
+	static JPanel dayPaneltasks; 
 	static JPanel dayTaskP; // Tasks (updated after every user interaction)
 	// For the creation of a new daily task
 	public static JButton newDailyB; // Daily Button
@@ -61,7 +62,7 @@ public class DailyClass {
 	
 	static JButton[] cklistButtons;
 
-	public static JScrollPane initiateDailyPanel() throws FileNotFoundException {
+	public static JPanel initiateDailyPanel() throws FileNotFoundException {
 		
 		dayPanel = new JPanel();
 		dayPanel.setBorder(new LineBorder(Color.DARK_GRAY, 2, true));
@@ -81,12 +82,15 @@ public class DailyClass {
 		titleP.add(newDailyB, BorderLayout.SOUTH);
 		dayPanel.add(titleP, BorderLayout.NORTH);
 
+		dayPaneltasks = new JPanel();
 		updateDailyPanel();
-
-		jSP = new JScrollPane(dayPanel);
+		
+		jSP = new JScrollPane(dayPaneltasks);
 		jSP.setPreferredSize(new Dimension(350, 450));
-
-		return jSP;
+		
+		dayPanel.add(jSP, BorderLayout.CENTER);
+		
+		return dayPanel;
 	}
 
 	@SuppressWarnings("deprecation")
@@ -105,7 +109,7 @@ public class DailyClass {
 			}
 		}
 	}
-	// Generates a random colour based off a white background so the colours are light
+	// Generates a random colour based off a white background so the colours are lighter
 	public static Color generateRandomColor() {
 		Random r = new Random();
 		int red = r.nextInt(256);
@@ -121,14 +125,13 @@ public class DailyClass {
 		Color color = new Color(red, green, blue);
 		return color;
 	}
-
 	// Load information into JPanels on dailyPanel
 	// Updates the dailyPanel
 	public static void updateDailyPanel() {
-		if (newDailyP != null && newDailyP.getParent() == dayPanel) {
-			dayPanel.remove(newDailyP);
-		} else if (upDailyP != null && upDailyP.getParent() == dayPanel) {
-			dayPanel.remove(upDailyP);
+		if (newDailyP != null && newDailyP.getParent() == dayPaneltasks) {
+			dayPaneltasks.remove(newDailyP);
+		} else if (upDailyP != null && upDailyP.getParent() == dayPaneltasks) {
+			dayPaneltasks.remove(upDailyP);
 		}
 		
 		// Contains all the daily tasks in jcheckboxes
@@ -147,7 +150,7 @@ public class DailyClass {
 			if (Daily.dayList[i] != null) {
 				JPanel taskP = new JPanel(new BorderLayout());
 
-				taskP.setPreferredSize(new Dimension(325, 30));
+				taskP.setPreferredSize(new Dimension(325, 40));
 				taskP.setBorder(BorderFactory.createLineBorder(Color.LIGHT_GRAY));
 				Font f = new Font("Century", Font.PLAIN, 18);
 
@@ -180,7 +183,7 @@ public class DailyClass {
 				dayTaskP.add(taskP, gbc);
 			}
 		}
-		dayPanel.add(dayTaskP, BorderLayout.CENTER);
+		dayPaneltasks.add(dayTaskP, BorderLayout.CENTER);
 
 		if (Status.statsPanel != null){
 			Status.updateDailyStatsPanel();
@@ -194,7 +197,7 @@ public class DailyClass {
 	// daily
 	
 	public static void createNewDailyPanel() {
-		dayPanel.remove(dayTaskP);
+		dayPaneltasks.remove(dayTaskP);
 
 		// TextField implementation for title
 		JPanel newTitleP = new JPanel(new BorderLayout());
@@ -217,7 +220,7 @@ public class DailyClass {
 		// checklist label
 		JLabel cklstL = new JLabel("Checklist");
 		cklstTitleP.add(cklstL);
-		// cklstL.setForeground(Color.BLACK);
+		// cklstL.setForeground(Color.RED);
 		cklstTitleP.add(cklstL, BorderLayout.CENTER);
 		cklstA = new JTextArea("Enter one item/line");
 		cklstA.setLineWrap(true);
@@ -228,7 +231,7 @@ public class DailyClass {
 		// Difficulty Slider Implementation
 		JPanel diffP = new JPanel(new BorderLayout());
 		JLabel diffL = new JLabel("Difficulty");
-		// diffL.setForeground(Color.BLACK);
+		// diffL.setForeground(Color.RED);
 		diffS = new JSlider(1, 10);
 		diffP.add(diffL, BorderLayout.NORTH);
 		diffP.add(diffS, BorderLayout.CENTER);
@@ -247,10 +250,10 @@ public class DailyClass {
 			repeatButtons[i] = new JButton(daysOfTheWeek[i]);
 			if (repeat[i] == true) {
 				repeatButtons[i].setActionCommand("repeat");
-				repeatButtons[i].setForeground(Color.CYAN);
+				repeatButtons[i].setForeground(Color.GREEN);
 			} else {
 				repeatButtons[i].setActionCommand("no repeat");
-				repeatButtons[i].setForeground(Color.BLACK);
+				repeatButtons[i].setForeground(Color.RED);
 			}
 			repeatButtons[i].addActionListener(new ExtendedRepeatBNewListener(i));
 			daysOfWeekP1.add(repeatButtons[i]);
@@ -260,10 +263,10 @@ public class DailyClass {
 			repeatButtons[i] = new JButton(daysOfTheWeek[i]);
 			if (repeat[i] == true) {
 				repeatButtons[i].setActionCommand("repeat");
-				repeatButtons[i].setForeground(Color.CYAN);
+				repeatButtons[i].setForeground(Color.GREEN);
 			} else {
 				repeatButtons[i].setActionCommand("no repeat");
-				repeatButtons[i].setForeground(Color.BLACK);
+				repeatButtons[i].setForeground(Color.RED);
 			}
 			repeatButtons[i].addActionListener(new ExtendedRepeatBNewListener(i));
 			daysOfWeekP2.add(repeatButtons[i]);
@@ -291,7 +294,7 @@ public class DailyClass {
 		newDailyP.add(diffP);
 		newDailyP.add(repeatP);
 		newDailyP.add(completeB);
-		dayPanel.add(newDailyP, BorderLayout.CENTER);
+		dayPaneltasks.add(newDailyP, BorderLayout.CENTER);
 		Program.window.repaint();
 	}
 
@@ -334,7 +337,7 @@ public class DailyClass {
 
 	// Opens a new Jpanel for user to update dayList
 	public static void updateDaily(final int index) {
-		dayPanel.remove(dayTaskP);
+		dayPaneltasks.remove(dayTaskP);
 		// TextField implementation for title
 		JPanel newTitleP = new JPanel(new BorderLayout());
 		JLabel newTitleL = new JLabel("Title");
@@ -356,7 +359,7 @@ public class DailyClass {
 		// checklist label
 		JLabel cklstL = new JLabel("Checklist");
 		cklstTitleP.add(cklstL);
-		// cklstL.setForeground(Color.BLACK);
+		// cklstL.setForeground(Color.RED);
 		cklstTitleP.add(cklstL, BorderLayout.CENTER);
 		cklstA = new JTextArea();
 		String cklstS = "";
@@ -376,7 +379,7 @@ public class DailyClass {
 		// Difficulty Slider Implementation
 		JPanel diffP = new JPanel(new BorderLayout());
 		JLabel diffL = new JLabel("Difficulty");
-		// diffL.setForeground(Color.BLACK);
+		// diffL.setForeground(Color.RED);
 		diffS = new JSlider(1, 10);
 
 		diffS.setValue(Daily.dayList[index].getDifficulty());
@@ -385,7 +388,7 @@ public class DailyClass {
 
 		// Repeat buttons
 		JPanel repeatP = new JPanel(new BorderLayout());
-		JLabel repeatL = new JLabel("Select days to repeat on.");
+		JLabel repeatL = new JLabel("Repeat on:");
 		// repeatL.setForeground(Color.WHITE);
 		JPanel daysOfWeekP1 = new JPanel(new GridLayout(1, 3));
 		JPanel daysOfWeekP2 = new JPanel(new GridLayout(1, 4));
@@ -395,10 +398,10 @@ public class DailyClass {
 			upRepeatButtons[i] = new JButton(daysOfTheWeek[i]);
 			if (repeat[i] == true) {
 				upRepeatButtons[i].setActionCommand("repeat");
-				upRepeatButtons[i].setForeground(Color.CYAN);
+				upRepeatButtons[i].setForeground(Color.GREEN);
 			} else {
 				upRepeatButtons[i].setActionCommand("no repeat");
-				upRepeatButtons[i].setForeground(Color.BLACK);
+				upRepeatButtons[i].setForeground(Color.RED);
 			}
 			upRepeatButtons[i].addActionListener(new ExtendedRepeatBUpListener(index, i));
 			daysOfWeekP1.add(upRepeatButtons[i]);
@@ -408,10 +411,10 @@ public class DailyClass {
 			upRepeatButtons[i] = new JButton(daysOfTheWeek[i]);
 			if (repeat[i] == true) {
 				upRepeatButtons[i].setActionCommand("repeat");
-				upRepeatButtons[i].setForeground(Color.CYAN);
+				upRepeatButtons[i].setForeground(Color.GREEN);
 			} else {
 				upRepeatButtons[i].setActionCommand("no repeat");
-				upRepeatButtons[i].setForeground(Color.BLACK);
+				upRepeatButtons[i].setForeground(Color.RED);
 			}
 			upRepeatButtons[i].addActionListener(new ExtendedRepeatBUpListener(index, i));
 			daysOfWeekP2.add(upRepeatButtons[i]);
@@ -436,11 +439,9 @@ public class DailyClass {
 		completeB.addActionListener(new ExtendedUDListener(index));
 		buttonP.add(deleteB);
 		buttonP.add(completeB);
-		// Initiation of upDailyP + foreground and background colours
+		// Initiation of upDailyP
 		upDailyP = new JPanel(new MigLayout("flowy", "[fill]", "[][][][pref!][][][]"));
-		upDailyP.setPreferredSize(new Dimension(250, 400));
-		// upDailyP.setBackground(Color.DARK_GRAY);
-		// upDailyP.setForeground(Color.WHITE);
+		upDailyP.setPreferredSize(new Dimension(320, 400));
 		upDailyP.add(newTitleP);
 		upDailyP.add(new JLabel("Description"));
 		upDailyP.add(newDescripSP);
@@ -449,7 +450,7 @@ public class DailyClass {
 		upDailyP.add(diffP);
 		upDailyP.add(repeatP);
 		upDailyP.add(buttonP);
-		dayPanel.add(upDailyP, BorderLayout.CENTER);
+		dayPaneltasks.add(upDailyP, BorderLayout.CENTER);
 		Program.window.repaint();
 	}
 	

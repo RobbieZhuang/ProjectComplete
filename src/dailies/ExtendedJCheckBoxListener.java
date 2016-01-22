@@ -1,4 +1,4 @@
-package dailyPackage;
+package dailies;
 
 import java.awt.BorderLayout;
 import java.awt.event.ActionEvent;
@@ -8,8 +8,8 @@ import java.io.IOException;
 
 import javax.swing.AbstractButton;
 
-import characterPackage.Character;
-import characterPackage.CharacterClass;
+import character.Character;
+import character.CharacterClass;
 
 public class ExtendedJCheckBoxListener implements ActionListener {
 	private int index;

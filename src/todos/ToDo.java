@@ -1,9 +1,9 @@
-package toDoPackage;
+package todos;
 
 import java.awt.Color;
 import java.util.Random;
 
-// The ToDo object: This object contains all the data for a single to do (from the Advanced Checklis)
+// The ToDo object: This object contains all the data for a single to do (from the Advanced Checklist)
 public class ToDo {
 	private String title;
 	private String description;
@@ -15,6 +15,7 @@ public class ToDo {
 	// The toDoList array which contains all the toDos
 	public static ToDo[] toDoList = new ToDo[1000];
 
+	// Constructors
 	public ToDo(String t, String d, int i, int dD, Color c, boolean done) {
 		this.title = t;
 		this.description = d;
@@ -40,6 +41,7 @@ public class ToDo {
 		this.done = false;
 	}
 
+	// Getters and setters
 	public String getTitle() {
 		return this.title;
 	}
@@ -117,18 +119,17 @@ public class ToDo {
 		}
 	}
 
-	// http://stackoverflow.com/questions/43044/algorithm-to-randomly-generate-an-aesthetically-pleasing-color-palette
+	// Generates a random colour
 	public static Color generateRandomColor() {
-		Random random = new Random();
-		int red = random.nextInt(256);
-		int green = random.nextInt(256);
-		int blue = random.nextInt(256);
-		Color mix = new Color(255, 255, 255);
-		// mix the color
-		if (mix != null) {
-			red = (red + mix.getRed()) / 2;
-			green = (green + mix.getGreen()) / 2;
-			blue = (blue + mix.getBlue()) / 2;
+		Random r = new Random();
+		int red = r.nextInt(256);
+		int green = r.nextInt(256);
+		int blue = r.nextInt(256);
+		Color canvas = new Color(255, 255, 255);
+		if (canvas != null) {
+			red = (red + canvas.getRed()) / 2;
+			green = (green + canvas.getGreen()) / 2;
+			blue = (blue + canvas.getBlue()) / 2;
 		}
 
 		Color color = new Color(red, green, blue);
